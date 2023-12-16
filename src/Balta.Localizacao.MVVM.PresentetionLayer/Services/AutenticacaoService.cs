@@ -35,7 +35,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
             return CustomResponse;
         }
         
-        public async Task<CustomResponse<AutenticacaoModel>> RegistrarNovoUsuario(AutenticacaoViewModel viewModel)
+        public async Task<CustomResponse<AutenticacaoModel>> RegistrarNovoUsuario(RegistrarUsuarioViewModel viewModel)
         {
             var user = new IdentityUser()
             {
