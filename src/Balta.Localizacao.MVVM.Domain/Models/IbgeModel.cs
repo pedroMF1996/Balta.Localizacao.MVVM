@@ -39,5 +39,7 @@ namespace Balta.Localizacao.MVVM.Domain.Models
             ValidationResult = new IbgeModelValidation().Validate(this);
             return base.IsValid();
         }
+
+  
     }
 }

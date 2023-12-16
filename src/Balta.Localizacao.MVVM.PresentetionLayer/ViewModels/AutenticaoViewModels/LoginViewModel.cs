@@ -11,5 +11,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewMode
         public string Email { get; set; }
         [Required(ErrorMessage ="O campo Senha é obrigatório")]
         public string Password { get; set; }
+
+        
     }
 }
