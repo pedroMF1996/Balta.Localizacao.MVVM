@@ -22,8 +22,6 @@ namespace Balta.Localizacao.MVVM.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<ValidationResult>();
-            modelBuilder.HasSequence<int>("IX_IBGE_ID");
-
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(LocalizacaoDbContex).Assembly);
         }
     }
