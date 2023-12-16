@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels
 {
-    public sealed class LoginViewModel:BaseViewModel<IbgeModel>
+    public sealed class AutenticacaoViewModel:BaseViewModel<IbgeModel>
     {
-        [Required(ErrorMessage = "O campo Email é obrigatório")]
-        [EmailAddress(ErrorMessage ="Email inválido")]
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
-        [Required(ErrorMessage ="O campo Senha é obrigatório")]
+        [Required]
         public string Password { get; set; }
     }
 }
