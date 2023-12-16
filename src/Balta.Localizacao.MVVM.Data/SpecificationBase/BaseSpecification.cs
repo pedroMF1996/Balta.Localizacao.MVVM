@@ -59,5 +59,8 @@ namespace Balta.Localizacao.MVVM.Data.SpecificationBase
             GroupBy = groupByExpression;
         }
 
+  
+
+
     }
 }

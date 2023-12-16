@@ -39,8 +39,9 @@ namespace Balta.Localizacao.MVVM.Data.Repositorios
                 );
         }
 
-        public async Task<IEnumerable<IbgeModel>> ObterIbgesModel(ISpecification<IbgeModel> filter)
+        public async Task<IEnumerable<IbgeModel>> ObterIbgesModel(ISpecification<IbgeModel>filter)
         {
+     
             return await AplicandoSpecification(filter)
                                             .AsNoTracking()
                                             .ToListAsync();

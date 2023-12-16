@@ -59,6 +59,24 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
             return CustomResponse;
         }
 
+        public async Task<CustomResponse<IbgeModel>>ListarIbge(IbgeListarViewModel viewModel)
+        {
+            var result = await _repository.ObterIbgesModel(new 
+                BuscarPorCityStateIdSpecification(
+                viewModel.City, 
+                viewModel.State, 
+                viewModel.Id, 
+                viewModel.Size,
+                viewModel.Skip)); 
+
+            if(result.Count() == 0)
+            {
+              return CustomResponse;
+            }
+
+            return result;
+        }
+
         public async Task<CustomResponse<IbgeModel>> RemoveIbge(IbgeExcluirViewModel viewModel)
         {
             var ibgesModel = await _repository.ObterIbgesModel(new BuscarPorIbgeIdSpecification(viewModel.Id));
