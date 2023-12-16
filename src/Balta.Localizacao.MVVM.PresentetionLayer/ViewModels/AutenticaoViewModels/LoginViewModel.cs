@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels
 {
-    public sealed class LoginViewModel:BaseViewModel<IbgeModel>
+    public sealed class LoginViewModel:BaseViewModel<AutenticacaoModel>
     {
         [Required(ErrorMessage = "O campo Email é obrigatório")]
         [EmailAddress(ErrorMessage ="Email inválido")]

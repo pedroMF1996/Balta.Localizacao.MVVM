@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels
 {
-    public sealed class AutenticacaoViewModel:BaseViewModel<IbgeModel>
+    public sealed class AutenticacaoViewModel:BaseViewModel<AutenticacaoModel>
     {
         [Required]
         [EmailAddress]
