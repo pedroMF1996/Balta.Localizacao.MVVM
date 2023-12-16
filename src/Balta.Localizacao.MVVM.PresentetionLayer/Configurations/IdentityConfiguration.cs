@@ -1,4 +1,5 @@
 ﻿using Balta.Localizacao.MVVM.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,13 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
                 .AddErrorDescriber<IdentityMensagensPortugues>()
                 .AddEntityFrameworkStores<AutenticationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(opt =>
+                    {
+                        opt.LoginPath = "/login";
+                        opt.AccessDeniedPath = "/acesso-negado";
+                    });
         }
     }
 }
