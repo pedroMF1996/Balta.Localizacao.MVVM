@@ -25,7 +25,7 @@ namespace Balta.Localizacao.MVVM.Domain.Models
         }
         public async Task SetCity(string city)
         {
-            if(city.HasMaxLength(150))
+            if(city.HasMaxLength(80))
                 City = city;
         }
         public async Task SetState(string state)
