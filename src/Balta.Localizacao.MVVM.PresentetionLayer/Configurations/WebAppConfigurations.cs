@@ -2,6 +2,7 @@
 using Balta.Localizacao.MVVM.Core.Data;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
 {
@@ -13,6 +14,8 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
         {
             services.AddIdentityConfiguration(configuration);
             
+            services.AddDbContext<LocalizacaoDbContex>(opt => opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
             services.AddRazorComponents()
                     .AddInteractiveServerComponents();
         }
@@ -37,6 +40,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
             });
 
             app.UseEnsuredDatabaseMigration<AutenticationDbContext>();
+            app.UseEnsuredDatabaseMigration<LocalizacaoDbContex>();
 
             app.UseStaticFiles();
             app.UseAntiforgery();
