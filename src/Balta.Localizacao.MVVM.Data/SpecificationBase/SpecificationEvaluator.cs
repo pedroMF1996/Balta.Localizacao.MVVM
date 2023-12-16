@@ -1,10 +1,11 @@
 ﻿
+using Balta.Localizacao.MVVM.Core.Domain;
 using Balta.Localizacao.MVVM.Domain.Specification;
 using Microsoft.EntityFrameworkCore;
 namespace Balta.Localizacao.MVVM.Data.SpecificationBase
 {
 
-    public class SpecificationEvaluator<TModel> where TModel : class
+    public class SpecificationEvaluator<TModel> where TModel : BaseModel
     {
         public static IQueryable<TModel> GetQuery(IQueryable<TModel> inputQuery, ISpecification<TModel> specification)
         {
