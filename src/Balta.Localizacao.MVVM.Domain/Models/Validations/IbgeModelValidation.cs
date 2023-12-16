@@ -9,7 +9,7 @@ namespace Balta.Localizacao.MVVM.Domain.Models.Validations
         public static readonly string IdLengthErrorMessage = "O campo Codigo deve conter 7 caracteres.";
         public static readonly string IdOnlyNumbersErrorMessage = "O campo Codigo deve conter apenas numeros.";
         public static readonly string CityRequiredErrorMessage = "O campo Cidade é obrigatorio.";
-        public static readonly string CityMaxLengthErrorMessage = "O campo Cidade deve conter até 150 caracteres.";
+        public static readonly string CityMaxLengthErrorMessage = "O campo Cidade deve conter até 80 caracteres.";
         public static readonly string StateRequiredErrorMessage = "O campo Estado é obrigatorio.";
         public static readonly string StateLengthErrorMessage = "O código Estado conter até 2 caracteres.";
 
@@ -25,7 +25,7 @@ namespace Balta.Localizacao.MVVM.Domain.Models.Validations
             RuleFor(x => x.City)
                 .NotEmpty()
                 .WithMessage(CityRequiredErrorMessage)
-                .MaximumLength(150)
+                .MaximumLength(80)
                 .WithMessage(CityMaxLengthErrorMessage);
             RuleFor(x => x.State)
                 .NotEmpty()
