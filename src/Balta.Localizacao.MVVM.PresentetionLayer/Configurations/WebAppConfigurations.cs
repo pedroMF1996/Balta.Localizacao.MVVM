@@ -39,8 +39,8 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
                 SupportedUICultures = supportCultures,
             });
 
-            app.UseEnsuredDatabaseMigration<AutenticationDbContext>();
-            app.UseEnsuredDatabaseMigration<LocalizacaoDbContex>();
+            app.UseEnsureDatabaseMigration<AutenticationDbContext>();
+            app.UseEnsureDatabaseMigration<LocalizacaoDbContex>();
 
             app.UseStaticFiles();
             app.UseAntiforgery();
