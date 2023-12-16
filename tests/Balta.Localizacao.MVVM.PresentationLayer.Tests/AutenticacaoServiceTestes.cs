@@ -10,7 +10,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
     public class AutenticacaoServiceTestes
     {
         [Fact(DisplayName = "Deve Realizar Login Com Sucesso")]
-        [Trait("Categoria", "Services")]
+        [Trait("Categoria", "AutenticationServices")]
         public async Task LoginViewModel_RealizarLogin_DeveRealizarLoginComSucesso()
         {
             // Arrange
@@ -35,7 +35,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         }
 
         [Fact(DisplayName = "Nao Deve Realizar Login Por Erro de Credenciais")]
-        [Trait("Categoria", "Services")]
+        [Trait("Categoria", "AutenticationServices")]
         public async Task LoginViewModel_RealizarLogin_NaoDeveRealizarLogin()
         {
             // Arrange
@@ -62,7 +62,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         }
 
         [Fact(DisplayName = "Nao Deve Realizar Login Por Travamento")]
-        [Trait("Categoria", "Services")]
+        [Trait("Categoria", "AutenticationServices")]
         public async Task LoginViewModel_RealizarLogin_NaoDeveRealizarLoginPorTravamento()
         {
             // Arrange
@@ -89,7 +89,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         }
 
         [Fact(DisplayName = "Deve Registrar Usuario Com Sucesso")]
-        [Trait("Categoria", "Services")]
+        [Trait("Categoria", "AutenticationServices")]
         public async Task RegistrarUsuarioViewModel_RegistrarUsuario_DeveRegistrarUsuarioComSucesso()
         {
             // Arrange
@@ -116,7 +116,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         }
 
         [Fact(DisplayName = "Deve Registrar Usuario Com Sucesso")]
-        [Trait("Categoria", "Services")]
+        [Trait("Categoria", "AutenticationServices")]
         public async Task RegistrarUsuarioViewModel_RegistrarUsuario_NaoDeveRegistrarUsuarioPorSenhasNaoCorresponderem()
         {
             // Arrange
