@@ -8,23 +8,45 @@
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
+        @{
+            foreach(var rota in @RetornarRotas())
+            {                
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="@rota.Key" Match="NavLinkMatch.All">
+                        <span class="@rota.Value" aria-hidden="true"></span> @ObterNomeRota(rota.Key)
+                    </NavLink>
+                </div>
+            }
+        }
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            <NavLink class="nav-link" href="account">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16"><path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" /></svg> Account
             </NavLink>
         </div>
     </nav>
 </div>
 
+@code{
+    public Dictionary<string, string> RetornarRotas()
+    {
+        var routes = new Dictionary<string, string>()
+            {
+                {"", "bi bi-house-door-fill-nav-menu"},
+                {"counter", "bi bi-plus-square-fill-nav-menu"},
+                {"weather", "bi bi-list-nested-nav-menu"},
+            };
+
+        return routes;
+    }
+
+    public string ObterNomeRota(string rota){
+        var nome = "Home";
+
+        if (rota == "counter")
+            nome = "Counter";
+        if (rota == "weather")
+            nome = "Weather";
+
+        return nome;
+    }
+}
