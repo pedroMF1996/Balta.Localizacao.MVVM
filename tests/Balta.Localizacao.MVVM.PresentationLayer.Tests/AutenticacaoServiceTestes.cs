@@ -139,7 +139,29 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             _userManager.Verify(u => u.CreateAsync(It.IsAny<IdentityUser>(), It.IsAny<string>()), Times.Once());
         }
 
-        [Fact(DisplayName = "Deve Registrar Usuario Com Sucesso")]
+        [Fact(DisplayName = "Nao Deve Registrar Usuario Por Erro De Validacao Do View Model")]
+        [Trait("Categoria", "AutenticationServices")]
+        public async Task RegistrarUsuarioViewModel_RegistrarUsuario_NaoDeveRegistrarUsuarioPorErroDeValidacaoDoViewModel()
+        {
+            // Arrange
+            var autoMocker = new AutoMocker();
+            var viewModel = new Faker<RegistrarUsuarioViewModel>().CustomInstantiator(f => new RegistrarUsuarioViewModel()
+                {
+                    Email = f.Internet.Email(),
+                    Password = f.Internet.Password()
+                });
+            var service = autoMocker.CreateInstance<AutenticacaoService>();
+
+            // Act
+            var result = await service.RegistrarNovoUsuario(viewModel);
+
+            // Assert
+            var erros = result.ValidationResult.Errors.Select(x => x.ErrorMessage);
+            Assert.False(result.ValidationResult.IsValid);
+            Assert.Contains(RegistrarUsuarioViewModelValidations.ConfirmPasswordUnmatchedErrorMessage, erros);
+        }
+        
+        [Fact(DisplayName = "Nao Deve Registrar Usuario Com Sucesso")]
         [Trait("Categoria", "AutenticationServices")]
         public async Task RegistrarUsuarioViewModel_RegistrarUsuario_NaoDeveRegistrarUsuarioPorSenhasNaoCorresponderem()
         {
