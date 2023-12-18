@@ -1,7 +1,7 @@
 ﻿using Balta.Localizacao.MVVM.Core.Presentaion;
 using Balta.Localizacao.MVVM.Domain.Models;
 using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity; 
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 {

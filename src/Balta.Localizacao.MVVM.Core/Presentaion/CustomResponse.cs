@@ -6,7 +6,7 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
     {
         public ValidationResult ValidationResult { get; private set; }
         public BaseViewModel<T> ViewModel { get; private set; }
-
+        public IReadOnlyCollection<string> Errors => ValidationResult.Errors.Select(e => e.ErrorMessage).ToList();
         public CustomResponse()
         {
             ValidationResult = new ValidationResult();
@@ -25,6 +25,21 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
         public async Task AtribuirValidationResult(ValidationResult validationResult)
         {
             ValidationResult = validationResult;
+        }
+
+        public async Task<bool> IsValid()
+        {
+            return ValidationResult.IsValid;
+        }
+
+        public async Task<bool> Contains(string msgError)
+        {
+            return Errors.Contains(msgError);
+        }
+
+        public async Task<string> ObterPrimeiroErro()
+        {
+            return Errors.FirstOrDefault();
         }
     }
 }
