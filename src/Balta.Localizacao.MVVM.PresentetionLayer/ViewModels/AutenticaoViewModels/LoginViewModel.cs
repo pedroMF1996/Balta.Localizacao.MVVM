@@ -1,5 +1,6 @@
 ﻿using Balta.Localizacao.MVVM.Core.Presentaion;
 using Balta.Localizacao.MVVM.Domain.Models;
+using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels
@@ -12,5 +13,11 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewMode
 
 		[Required(ErrorMessage = "O campo Senha é obrigatório")]
 		public string Password { get; set; }
-	}
+
+        public override bool IsValid()
+        {
+            ValidationResult = new LoginViewModelValidations().Validate(this);
+            return base.IsValid();
+        }
+    }
 }
