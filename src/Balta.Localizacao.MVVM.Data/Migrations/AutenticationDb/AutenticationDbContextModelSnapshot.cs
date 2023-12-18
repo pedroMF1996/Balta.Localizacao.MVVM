@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Balta.Localizacao.MVVM.Data.Migrations
+namespace Balta.Localizacao.MVVM.Data.Migrations.AutenticationDb
 {
     [DbContext(typeof(AutenticationDbContext))]
     partial class AutenticationDbContextModelSnapshot : ModelSnapshot

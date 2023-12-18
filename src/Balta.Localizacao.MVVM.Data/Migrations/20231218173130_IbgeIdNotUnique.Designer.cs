@@ -3,16 +3,19 @@ using Balta.Localizacao.MVVM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Balta.Localizacao.MVVM.Data.Migrations.LocalizacaoDbContexMigrations
+namespace Balta.Localizacao.MVVM.Data.Migrations
 {
     [DbContext(typeof(LocalizacaoDbContex))]
-    partial class LocalizacaoDbContexModelSnapshot : ModelSnapshot
+    [Migration("20231218173130_IbgeIdNotUnique")]
+    partial class IbgeIdNotUnique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,17 +28,20 @@ namespace Balta.Localizacao.MVVM.Data.Migrations.LocalizacaoDbContexMigrations
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(7)
-                        .HasColumnType("char");
+                        .HasColumnType("char")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("nvarchar")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("State")
                         .IsRequired()
                         .HasMaxLength(2)
-                        .HasColumnType("char");
+                        .HasColumnType("char")
+                        .HasColumnOrder(2);
 
                     b.HasKey("Id")
                         .HasName("PK_IBGE");
@@ -45,7 +51,6 @@ namespace Balta.Localizacao.MVVM.Data.Migrations.LocalizacaoDbContexMigrations
                         .HasDatabaseName("IX_IBGE_City");
 
                     b.HasIndex("Id")
-                        .IsUnique()
                         .HasDatabaseName("IX_IBGE_Id");
 
                     b.HasIndex("State")

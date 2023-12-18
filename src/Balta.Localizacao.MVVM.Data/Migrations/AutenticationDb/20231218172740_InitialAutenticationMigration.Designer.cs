@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Balta.Localizacao.MVVM.Data.Migrations
+namespace Balta.Localizacao.MVVM.Data.Migrations.AutenticationDb
 {
     [DbContext(typeof(AutenticationDbContext))]
-    [Migration("20231216212051_InitialIdentityMigration")]
-    partial class InitialIdentityMigration
+    [Migration("20231218172740_InitialAutenticationMigration")]
+    partial class InitialAutenticationMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

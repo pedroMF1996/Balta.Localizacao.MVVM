@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Balta.Localizacao.MVVM.Data.Migrations.LocalizacaoDbContexMigrations
+namespace Balta.Localizacao.MVVM.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialLocalizacaoMigration : Migration
@@ -15,8 +15,8 @@ namespace Balta.Localizacao.MVVM.Data.Migrations.LocalizacaoDbContexMigrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "char(7)", maxLength: 7, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
-                    State = table.Column<string>(type: "char(2)", maxLength: 2, nullable: false)
+                    State = table.Column<string>(type: "char(2)", maxLength: 2, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
                 },
                 constraints: table =>
                 {

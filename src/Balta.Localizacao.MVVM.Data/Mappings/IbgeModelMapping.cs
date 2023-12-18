@@ -14,31 +14,31 @@ namespace Balta.Localizacao.MVVM.Data.Mappings
             builder.Property(x => x.Id)
                 .HasColumnType("char")
                 .HasMaxLength(7)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnOrder(1);
 
-            builder.Property(x => x.City) 
-                .HasColumnType("nvarchar")
-                .HasMaxLength(80)
-                .IsRequired();
+			builder.HasIndex(x => x.Id)
+				.HasName("IX_IBGE_Id");
 
-            builder.Property(x => x.State)
+			builder.Property(x => x.State)
                 .HasColumnType("char")
                 .HasMaxLength (2)
-                .IsRequired();
+				.HasDefaultValue(null)
+				.HasColumnOrder(2);
 
-            builder.HasIndex(x => x.Id)
-                .IsUnique()
-                .HasName("IX_IBGE_Id");
-
-            builder.HasIndex(x => x.City)
-                .IsUnique()
-                .HasName("IX_IBGE_City");
-            
             builder.HasIndex(x => x.State)
-                .IsUnique()
                 .HasName("IX_IBGE_State");
 
-            builder.ToTable("IBGE");
+			builder.Property(x => x.City)
+				.HasColumnType("nvarchar")
+				.HasMaxLength(80)
+                .HasDefaultValue(null)
+				.HasColumnOrder(3);
+
+			builder.HasIndex(x => x.City)
+				.HasName("IX_IBGE_City");
+
+			builder.ToTable("IBGE");
         }
     }
 }

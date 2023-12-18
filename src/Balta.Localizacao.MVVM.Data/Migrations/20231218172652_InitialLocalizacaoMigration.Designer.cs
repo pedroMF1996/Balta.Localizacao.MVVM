@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Balta.Localizacao.MVVM.Data.Migrations.LocalizacaoDbContexMigrations
+namespace Balta.Localizacao.MVVM.Data.Migrations
 {
     [DbContext(typeof(LocalizacaoDbContex))]
-    [Migration("20231216215335_InitialLocalizacaoMigration")]
+    [Migration("20231218172652_InitialLocalizacaoMigration")]
     partial class InitialLocalizacaoMigration
     {
         /// <inheritdoc />
@@ -28,17 +28,20 @@ namespace Balta.Localizacao.MVVM.Data.Migrations.LocalizacaoDbContexMigrations
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(7)
-                        .HasColumnType("char");
+                        .HasColumnType("char")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("nvarchar")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("State")
                         .IsRequired()
                         .HasMaxLength(2)
-                        .HasColumnType("char");
+                        .HasColumnType("char")
+                        .HasColumnOrder(2);
 
                     b.HasKey("Id")
                         .HasName("PK_IBGE");
