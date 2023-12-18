@@ -14,10 +14,10 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewMode
 		[Required(ErrorMessage = "O campo Senha é obrigatório")]
 		public string Password { get; set; }
 
-        public override bool IsValid()
+        public override bool EhValido()
         {
             ValidationResult = new LoginViewModelValidations().Validate(this);
-            return base.IsValid();
+            return base.EhValido();
         }
     }
 }

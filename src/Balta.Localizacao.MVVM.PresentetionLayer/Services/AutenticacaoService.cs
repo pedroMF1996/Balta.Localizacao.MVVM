@@ -19,7 +19,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
         public async Task<CustomResponse<AutenticacaoModel>> RealizarLogin(LoginViewModel viewModel)
         {
-            if(!viewModel.IsValid())
+            if(!viewModel.EhValido())
             {
                 await AdicionarErro(viewModel.ValidationResult);
                 return CustomResponse;
@@ -43,7 +43,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
         
         public async Task<CustomResponse<AutenticacaoModel>> RegistrarNovoUsuario(RegistrarUsuarioViewModel viewModel)
         {
-			if (!viewModel.IsValid())
+			if (!viewModel.EhValido())
 			{
 				await AdicionarErro(viewModel.ValidationResult);
 				return CustomResponse;

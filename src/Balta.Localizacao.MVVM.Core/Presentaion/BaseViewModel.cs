@@ -7,7 +7,7 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
     {
         public ValidationResult ValidationResult { get; protected set; }
 
-        public virtual bool IsValid()
+        public virtual bool EhValido()
         {
             return ValidationResult.IsValid;
         }

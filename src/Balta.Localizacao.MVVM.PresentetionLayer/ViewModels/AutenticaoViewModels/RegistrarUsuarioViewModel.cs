@@ -14,10 +14,10 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewMode
 		public string Password { get; set; }
 		[Compare(nameof(Password), ErrorMessage = "O campo confirmacao de senha deve corresponder ao campo senha")]
 		public string ConfirmPassword { get; set; }
-        public override bool IsValid()
+        public override bool EhValido()
         {
 			ValidationResult = new RegistrarUsuarioViewModelValidations().Validate(this);
-            return base.IsValid();
+            return base.EhValido();
         }
     }
 }
