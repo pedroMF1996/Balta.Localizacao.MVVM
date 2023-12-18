@@ -3,7 +3,7 @@ using Balta.Localizacao.MVVM.Core.Domain;
 
 namespace Balta.Localizacao.MVVM.Core.Presentaion
 {
-    public abstract class BaseService<T> where T : BaseModel
+    public abstract class BaseService<T> where T : BaseModel?
     {
         public CustomResponse<T> CustomResponse { get; private set; }
 

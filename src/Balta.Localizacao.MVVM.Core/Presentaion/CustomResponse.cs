@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 namespace Balta.Localizacao.MVVM.Core.Presentaion
 {
-    public class CustomResponse<T> where T : BaseModel
+    public class CustomResponse<T> where T : BaseModel?
     {
         public ValidationResult ValidationResult { get; private set; }
         public BaseViewModel<T> ViewModel { get; private set; }

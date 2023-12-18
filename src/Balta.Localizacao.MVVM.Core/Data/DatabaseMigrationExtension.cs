@@ -6,9 +6,9 @@ namespace Balta.Localizacao.MVVM.Core.Data
 {
     public static class DatabaseMigrationExtension
     {
-        public static void UseEnsuredDatabaseMigration<T>(this WebApplication app) where T : DbContext
+        public static void UseEnsureDatabaseMigration<T>(this IApplicationBuilder app) where T : DbContext
         {
-            var dbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<T>();
+            var dbContext = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<T>();
 
             dbContext.Database.Migrate();
         }
