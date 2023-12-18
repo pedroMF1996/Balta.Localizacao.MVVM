@@ -16,6 +16,8 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
             
             services.AddDbContext<LocalizacaoDbContex>(opt => opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddServices();
+
             services.AddRazorComponents()
                     .AddInteractiveServerComponents();
         }
