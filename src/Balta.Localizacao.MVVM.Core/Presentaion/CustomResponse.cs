@@ -4,17 +4,17 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
 {
     public class CustomResponse<T> where T : BaseModel?
     {
-        public ValidationResult ValidationResult { get; private set; }
+        private ValidationResult _validationResult;
         public BaseViewModel<T> ViewModel { get; private set; }
-        public IReadOnlyCollection<string> Errors => ValidationResult.Errors.Select(e => e.ErrorMessage).ToList();
+        public IReadOnlyCollection<string> Errors => _validationResult.Errors.Select(e => e.ErrorMessage).ToList();
         public CustomResponse()
         {
-            ValidationResult = new ValidationResult();
+            _validationResult = new ValidationResult();
         }
 
         public async Task AdicionarErro(string errorMessage)
         {
-            ValidationResult.Errors.Add(new ValidationFailure("Erro de processamento", errorMessage));
+            _validationResult.Errors.Add(new ValidationFailure("Erro de processamento", errorMessage));
         }
 
         public async Task AtribuirViewModel(BaseViewModel<T> viewModel)
@@ -24,12 +24,12 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
 
         public async Task AtribuirValidationResult(ValidationResult validationResult)
         {
-            ValidationResult = validationResult;
+            _validationResult = validationResult;
         }
 
         public async Task<bool> IsValid()
         {
-            return ValidationResult.IsValid;
+            return _validationResult.IsValid;
         }
 
         public async Task<bool> Contains(string msgError)

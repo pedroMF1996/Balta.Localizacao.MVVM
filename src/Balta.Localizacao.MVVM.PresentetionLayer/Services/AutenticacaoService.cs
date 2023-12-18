@@ -59,7 +59,10 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
             var result = await _userManager.CreateAsync(user, viewModel.Password);
 
             if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, true);
                 return CustomResponse;
+            }
             
 
             foreach (var error in result.Errors)

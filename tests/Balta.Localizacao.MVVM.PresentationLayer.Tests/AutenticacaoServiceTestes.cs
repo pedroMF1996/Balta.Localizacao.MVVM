@@ -31,7 +31,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             var result = await service.RealizarLogin(viewModel);
 
             // Assert
-            Assert.True(result.ValidationResult.IsValid);
+            Assert.True(await result.IsValid());
             signInManager.Verify(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Once());
         }
 
@@ -53,8 +53,8 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 			var result = await service.RealizarLogin(viewModel);
 
 			// Assert
-			var erros = result.ValidationResult.Errors.Select(e => e.ErrorMessage);
-			Assert.False(result.ValidationResult.IsValid);
+			var erros = result.Errors;
+			Assert.False(await result.IsValid());
 			Assert.Contains(LoginViewModelValidations.EmailRequiredErrorMessage, erros);
 			Assert.Contains(LoginViewModelValidations.EmailInvalidErrorMessage, erros);
 		}
@@ -80,8 +80,8 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             var result = await service.RealizarLogin(viewModel);
 
             // Assert
-            var erros = result.ValidationResult.Errors.Select(e => e.ErrorMessage);
-            Assert.False(result.ValidationResult.IsValid);
+            var erros = result.Errors;
+            Assert.False(await result.IsValid());
             Assert.Contains("Usuario ou senha incorretos", erros);
             signInManager.Verify(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Once());
         }
@@ -107,8 +107,8 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             var result = await service.RealizarLogin(viewModel);
 
             // Assert
-            var erros = result.ValidationResult.Errors.Select(e => e.ErrorMessage);
-            Assert.False(result.ValidationResult.IsValid);
+            var erros = result.Errors;
+            Assert.False(await result.IsValid());
             Assert.Contains("Usuario temporariamente bloqueado por tentativas invalidas", erros);
             signInManager.Verify(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Once());
         }
@@ -136,7 +136,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             var result = await service.RegistrarNovoUsuario(viewModel);
 
             // Assert
-            Assert.True(result.ValidationResult.IsValid);
+            Assert.True(await result.IsValid());
             _userManager.Verify(u => u.CreateAsync(It.IsAny<IdentityUser>(), It.IsAny<string>()), Times.Once());
         }
 
@@ -157,8 +157,8 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             var result = await service.RegistrarNovoUsuario(viewModel);
 
             // Assert
-            var erros = result.ValidationResult.Errors.Select(x => x.ErrorMessage);
-            Assert.False(result.ValidationResult.IsValid);
+            var erros = result.Errors;
+            Assert.False(await result.IsValid());
             Assert.Contains(RegistrarUsuarioViewModelValidations.ConfirmPasswordUnmatchedErrorMessage, erros);
         }
         
@@ -187,8 +187,8 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             var result = await service.RegistrarNovoUsuario(viewModel);
 
             // Assert
-            var erros = result.ValidationResult.Errors.Select(x => x.ErrorMessage);
-            Assert.False(result.ValidationResult.IsValid);
+            var erros = result.Errors;
+            Assert.False(await result.IsValid());
             Assert.Contains(error.Description, erros);
             _userManager.Verify(u => u.CreateAsync(It.IsAny<IdentityUser>(), It.IsAny<string>()), Times.Once());
         }
