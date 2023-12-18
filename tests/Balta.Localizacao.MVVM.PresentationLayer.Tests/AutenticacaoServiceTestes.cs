@@ -1,5 +1,6 @@
 ﻿using Balta.Localizacao.MVVM.PresentetionLayer.Services;
 using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels;
+using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels.Validations;
 using Bogus;
 using Microsoft.AspNetCore.Identity;
 using Moq;
