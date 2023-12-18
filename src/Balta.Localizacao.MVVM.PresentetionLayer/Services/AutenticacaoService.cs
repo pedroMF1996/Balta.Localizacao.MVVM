@@ -19,6 +19,12 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
         public async Task<CustomResponse<AutenticacaoModel>> RealizarLogin(LoginViewModel viewModel)
         {
+            if(!viewModel.IsValid())
+            {
+                await AdicionarErro(viewModel.ValidationResult);
+                return CustomResponse;
+            }    
+
             var result = await _signInManager.PasswordSignInAsync(viewModel.Email, viewModel.Password, false, true);
 
             if (result.Succeeded)
@@ -37,7 +43,13 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
         
         public async Task<CustomResponse<AutenticacaoModel>> RegistrarNovoUsuario(RegistrarUsuarioViewModel viewModel)
         {
-            var user = new IdentityUser()
+			if (!viewModel.IsValid())
+			{
+				await AdicionarErro(viewModel.ValidationResult);
+				return CustomResponse;
+			}
+
+			var user = new IdentityUser()
             {
                 UserName = viewModel.Email,
                 Email = viewModel.Email,

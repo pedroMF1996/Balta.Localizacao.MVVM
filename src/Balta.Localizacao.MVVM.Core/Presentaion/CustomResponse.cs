@@ -21,5 +21,10 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
         {
             ViewModel = viewModel;
         }
+
+        public async Task AtribuirValidationResult(ValidationResult validationResult)
+        {
+            ValidationResult = validationResult;
+        }
     }
 }

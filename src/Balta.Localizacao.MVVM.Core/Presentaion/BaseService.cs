@@ -1,5 +1,6 @@
 ﻿using Balta.Localizacao.MVVM.Core.Data;
 using Balta.Localizacao.MVVM.Core.Domain;
+using FluentValidation.Results;
 
 namespace Balta.Localizacao.MVVM.Core.Presentaion
 {
@@ -20,6 +21,11 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
         public virtual async Task AdicionarErro(string errorMessage)
         { 
             await CustomResponse.AdicionarErro(errorMessage);
+        }
+        
+        public virtual async Task AdicionarErro(ValidationResult validationResult)
+        { 
+            await CustomResponse.AtribuirValidationResult(validationResult);
         }
 
         public virtual async Task AtribuirViewModel(BaseViewModel<T> viewModel)

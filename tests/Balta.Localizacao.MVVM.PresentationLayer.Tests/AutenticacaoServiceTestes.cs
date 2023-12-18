@@ -34,15 +34,39 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             signInManager.Verify(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Once());
         }
 
-        [Fact(DisplayName = "Nao Deve Realizar Login Por Erro de Credenciais")]
+
+		[Fact(DisplayName = "Nao Deve Realizar Login Por Erro de Validacao do ViewModel")]
+		[Trait("Categoria", "AutenticationServices")]
+		public async Task LoginViewModel_RealizarLogin_NaoDeveRealizarLogin()
+		{
+			// Arrange
+			var autoMocker = new AutoMocker();
+			var viewModel = new Faker<LoginViewModel>().CustomInstantiator(f => new LoginViewModel()
+			{
+				Email = "",
+				Password = f.Internet.Password()
+			}).Generate();
+			var service = autoMocker.CreateInstance<AutenticacaoService>();
+
+			// Act
+			var result = await service.RealizarLogin(viewModel);
+
+			// Assert
+			var erros = result.ValidationResult.Errors.Select(e => e.ErrorMessage);
+			Assert.False(result.ValidationResult.IsValid);
+			Assert.Contains(LoginViewModelValidations.EmailRequiredErrorMessage, erros);
+			Assert.Contains(LoginViewModelValidations.EmailInvalidErrorMessage, erros);
+		}
+
+		[Fact(DisplayName = "Nao Deve Realizar Login Por Erro de Credenciais")]
         [Trait("Categoria", "AutenticationServices")]
-        public async Task LoginViewModel_RealizarLogin_NaoDeveRealizarLogin()
+        public async Task LoginViewModel_RealizarLogin_NaoDeveRealizarLoginCredenciaisInvalidas()
         {
             // Arrange
             var autoMocker = new AutoMocker();
             var viewModel = new Faker<LoginViewModel>().CustomInstantiator(f => new LoginViewModel()
             {
-                Email = "",
+                Email = f.Internet.Email(),
                 Password = f.Internet.Password()
             }).Generate();
             var service = autoMocker.CreateInstance<AutenticacaoService>();
@@ -69,7 +93,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             var autoMocker = new AutoMocker();
             var viewModel = new Faker<LoginViewModel>().CustomInstantiator(f => new LoginViewModel()
             {
-                Email = "",
+                Email = f.Internet.Email(),
                 Password = f.Internet.Password()
             }).Generate();
             var service = autoMocker.CreateInstance<AutenticacaoService>();
