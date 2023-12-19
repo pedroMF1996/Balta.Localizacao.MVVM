@@ -15,8 +15,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
         private readonly IHttpContextAccessor _httpContext;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly AuthenticationState _context;
-
+        
         public AutenticacaoService(SignInManager<IdentityUser> signInManager,
                                    UserManager<IdentityUser> userManager,
                                    IAuthenticationService authenticationService,
