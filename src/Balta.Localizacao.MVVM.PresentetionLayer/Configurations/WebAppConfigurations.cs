@@ -20,6 +20,8 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
 
             services.AddRazorComponents()
                     .AddInteractiveServerComponents();
+
+            services.AddRazorPages();
         }
 
         public static void UseWebAppConfiguration(this IApplicationBuilder app, IWebHostEnvironment environment)

@@ -1,9 +1,9 @@
-﻿@inject AutenticacaoService _service
-
-@page "/login/{ReturnUrl}"
+﻿@page "/Login"
+@page "/Login/{ReturnUrl}"
 
 @inject SignInManager<IdentityUser> _signInManager;
 @inject AutenticacaoService _autenticacaoService;
+@inject AutenticacaoService _service
 @inject NavigationManager _nav
 
 <PageTitle>Login</PageTitle>
@@ -69,13 +69,13 @@
 
 @code {
     [Parameter]
-    public string ReturnUrl { get; set; } = "/";
-    
+    public string? ReturnUrl { get; set; } = "/";
+
     [Parameter]
     public string ErrorMessage { get; set; }
-    
+
     [CascadingParameter]
-    private HttpContext? HttpContext { get; set; }
+    private HttpContext HttpContext { get; set; }
 
     public LoginViewModel Input { get; set; }
 

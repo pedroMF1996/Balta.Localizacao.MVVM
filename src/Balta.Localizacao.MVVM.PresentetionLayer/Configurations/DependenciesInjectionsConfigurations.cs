@@ -1,5 +1,4 @@
 ﻿using Balta.Localizacao.MVVM.PresentetionLayer.Services;
-using Microsoft.AspNetCore.Identity;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
 {
