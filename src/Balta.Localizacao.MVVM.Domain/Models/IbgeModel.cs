@@ -7,8 +7,8 @@ namespace Balta.Localizacao.MVVM.Domain.Models
     public class IbgeModel : BaseModel
     {
         public string Id { get; private set; }
-        public string City { get; private set; }
-        public string State { get; private set; }
+        public string? City { get; private set; }
+        public string? State { get; private set; }
 
         protected IbgeModel() { }
         public IbgeModel(string id, string state, string city)

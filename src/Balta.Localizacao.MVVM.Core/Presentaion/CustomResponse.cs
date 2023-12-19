@@ -1,25 +1,44 @@
-﻿using Balta.Localizacao.MVVM.Core.Domain;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 namespace Balta.Localizacao.MVVM.Core.Presentaion
 {
-    public class CustomResponse<T> where T : BaseModel?
+    public class CustomResponse<BaseViewModel>
     {
-        public ValidationResult ValidationResult { get; private set; }
-        public BaseViewModel<T> ViewModel { get; private set; }
-
+        private ValidationResult _validationResult;
+        public BaseViewModel ViewModel { get; private set; }
+        public IReadOnlyCollection<string> Errors => _validationResult.Errors.Select(e => e.ErrorMessage).ToList();
         public CustomResponse()
         {
-            ValidationResult = new ValidationResult();
+            _validationResult = new ValidationResult();
         }
 
         public async Task AdicionarErro(string errorMessage)
         {
-            ValidationResult.Errors.Add(new ValidationFailure("Erro de processamento", errorMessage));
+            _validationResult.Errors.Add(new ValidationFailure("Erro de processamento", errorMessage));
         }
 
-        public async Task AtribuirViewModel(BaseViewModel<T> viewModel)
+        public async Task AtribuirViewModel(BaseViewModel viewModel)
         {
             ViewModel = viewModel;
+        }
+
+        public async Task AtribuirValidationResult(ValidationResult validationResult)
+        {
+            _validationResult = validationResult;
+        }
+
+        public async Task<bool> IsCompleted()
+        {
+            return _validationResult.IsValid;
+        }
+
+        public async Task<bool> Contains(string msgError)
+        {
+            return Errors.Contains(msgError);
+        }
+
+        public async Task<string> ObterPrimeiroErro()
+        {
+            return Errors.FirstOrDefault();
         }
     }
 }

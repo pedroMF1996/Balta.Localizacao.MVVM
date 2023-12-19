@@ -10,4 +10,9 @@
     <ProjectReference Include="..\Balta.Localizacao.MVVM.Domain\Balta.Localizacao.MVVM.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Migrations\AutenticationDb\" />
+  </ItemGroup>
+
 </Project>
