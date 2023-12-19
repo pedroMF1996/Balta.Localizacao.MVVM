@@ -1,5 +1,5 @@
-﻿@page "/Login"
-@page "/Login/{ReturnUrl}"
+﻿@page "/Registrar"
+@page "/Registrar/{ReturnUrl}"
 
 @rendermode InteractiveServer
 @inject SignInManager<IdentityUser> _signInManager;
@@ -7,34 +7,40 @@
 @inject AutenticacaoService _service
 @inject NavigationManager _nav
 
-<PageTitle>Login</PageTitle>
+<PageTitle>Cadastrar</PageTitle>
 <div class="row">
     <div class="col-md-4">
         <section>
-            <EditForm Model="@Input" OnValidSubmit="@OnPostAsync" FormName="loginForm" 
+            <EditForm Model="@Input" OnValidSubmit="@OnPostAsync" FormName="registerForm" 
                 class="d-flex flex-column align-items-center">
                 <DataAnnotationsValidator />
                 <ValidationSummary/>
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 <div class="form-group w-100 mb-4">
-                    <label for="#email">Email</label>
-                    <InputText class="form-control" @bind-Value="Input!.Email"/>
+                    <label class="w-100">
+                        Email
+                        <InputText class="form-control" type="email" @bind-Value="Input!.Email"/>
+                    </label>
                 </div>
                 <div class="form-group w-100 mb-4">
-                    <label for="#senha">Senha</label>
-                    <InputText class="form-control" type="password" @bind-Value="Input!.Password" />
+                    <label class="w-100">
+                        Senha
+                        <InputText class="form-control" type="password" @bind-Value="Input!.Password" />
+                    </label>
+                    
+                </div>
+                <div class="form-group w-100 mb-4">
+                    <label class="w-100">
+                        Confirmar Senha
+                        <InputText class="form-control" type="password" @bind-Value="Input!.ConfirmPassword" />
+                    </label>
                     
                 </div>
                 <div class="form-group mb-3">
                     <button type="submit" class="btn btn-default btn-primary py-2 px-5 ">
-                        <span class="m-5">Log in</span>
+                        <span class="m-5">Cadastrar</span>
                     </button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a href="registrar">Criar conta</a>
-                    </p>
                 </div>
             </EditForm>
         </section>
@@ -76,7 +82,7 @@
     public string? ReturnUrl { get; set; } = "/";
 
     [SupplyParameterFromForm]
-    public LoginViewModel? Input { get; set; }
+    public RegistrarUsuarioViewModel? Input { get; set; }
 
     public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -94,7 +100,7 @@
     {
         ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-        var result = await _autenticacaoService.RealizarLogin(Input);
+        var result = await _autenticacaoService.RegistrarNovoUsuario(Input);
         if (await result.IsValid())
         {
             _nav.NavigateTo(ReturnUrl ?? "/");
