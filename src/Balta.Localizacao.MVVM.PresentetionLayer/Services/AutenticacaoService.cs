@@ -1,20 +1,31 @@
 ﻿using Balta.Localizacao.MVVM.Core.Presentaion;
 using Balta.Localizacao.MVVM.Domain.Models;
 using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity; 
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 {
     public class AutenticacaoService : BaseService<AutenticacaoModel>
     {
-        
+        private readonly IAuthenticationService _authenticationService;
+        private readonly IHttpContextAccessor _httpContext;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly AuthenticationState _context;
 
-        public AutenticacaoService(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public AutenticacaoService(SignInManager<IdentityUser> signInManager,
+                                   UserManager<IdentityUser> userManager,
+                                   IAuthenticationService authenticationService,
+                                   IHttpContextAccessor httpContext)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _authenticationService = authenticationService;
+            _httpContext = httpContext;
         }
 
         public async Task<CustomResponse<AutenticacaoModel>> RealizarLogin(LoginViewModel viewModel)
@@ -71,6 +82,11 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
             }
 
             return CustomResponse;
+        }
+
+        public async Task Logout()
+        {
+            await _authenticationService.SignOutAsync(_httpContext.HttpContext, CookieAuthenticationDefaults.AuthenticationScheme, null);
         }
     }
 }

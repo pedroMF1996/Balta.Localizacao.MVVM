@@ -16,12 +16,14 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
             
             services.AddDbContext<LocalizacaoDbContex>(opt => opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddHttpContextAccessor();
             services.AddServices();
 
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
             services.AddRazorComponents()
                     .AddInteractiveServerComponents();
 
-            services.AddRazorPages();
         }
 
         public static void UseWebAppConfiguration(this IApplicationBuilder app, IWebHostEnvironment environment)

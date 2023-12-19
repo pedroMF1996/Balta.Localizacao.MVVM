@@ -1,6 +1,7 @@
 ﻿@page "/Login"
 @page "/Login/{ReturnUrl}"
 
+@rendermode InteractiveServer
 @inject SignInManager<IdentityUser> _signInManager;
 @inject AutenticacaoService _autenticacaoService;
 @inject AutenticacaoService _service
@@ -10,29 +11,32 @@
 <div class="row">
     <div class="col-md-4">
         <section>
-            <form id="account" method="post">
+            <EditForm Model="@Input" OnValidSubmit="@OnPostAsync" FormName="loginForm" 
+                class="d-flex flex-column align-items-center">
+                <DataAnnotationsValidator />
+                <ValidationSummary/>
                 <h4>Use a local account to log in.</h4>
                 <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <div class="form-group w-100 mb-4">
+                    <label for="#email">Email</label>
+                    <InputText class="form-control" @bind-Value="Input!.Email"/>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <div class="form-group w-100 mb-4">
+                    <label for="#senha">Senha</label>
+                    <InputText class="form-control" type="password" @bind-Value="Input!.Password" />
+                    
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">Log in</button>
+                <div class="form-group mb-3">
+                    <button type="submit" class="btn btn-default btn-primary py-2 px-5 ">
+                        <span class="m-5">Log in</span>
+                    </button>
                 </div>
                 <div class="form-group">
                     <p>
                         <a asp-page="./Register" asp-route-returnUrl="@ReturnUrl">Criar conta</a>
                     </p>
                 </div>
-            </form>
+            </EditForm>
         </section>
     </div>
     <div class="col-md-6 col-md-offset-2">
@@ -71,13 +75,8 @@
     [Parameter]
     public string? ReturnUrl { get; set; } = "/";
 
-    [Parameter]
-    public string ErrorMessage { get; set; }
-
-    [CascadingParameter]
-    private HttpContext HttpContext { get; set; }
-
-    public LoginViewModel Input { get; set; }
+    [SupplyParameterFromForm]
+    public LoginViewModel? Input { get; set; }
 
     public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -85,12 +84,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (!string.IsNullOrEmpty(ErrorMessage))
-        {
-            Errors.Add(ErrorMessage);
-        }
-
-        await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+        Input = new();
+        Errors = new();
 
         ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
     }
@@ -99,20 +94,17 @@
     {
         ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-        if (Input.EhValido())
+        var result = await _autenticacaoService.RealizarLogin(Input);
+        if (await result.IsValid())
         {
-            var result = await _autenticacaoService.RealizarLogin(Input);
-            if (await result.IsValid())
-            {
-                _nav.NavigateTo(ReturnUrl);
-            }
-            else
-                if (await result.Contains("Usuario temporariamente bloqueado por tentativas invalidas"))
-                _nav.NavigateTo("./Lockout");
-            else
-            {
-                Errors.Add(await result.ObterPrimeiroErro());
-            }
-        };
+            _nav.NavigateTo(ReturnUrl ?? "/");
+        }
+        else
+            if (await result.Contains("Usuario temporariamente bloqueado por tentativas invalidas"))
+            _nav.NavigateTo("./Lockout");
+        else
+        {
+            Errors.Add(await result.ObterPrimeiroErro());
+        }        
     }
 }

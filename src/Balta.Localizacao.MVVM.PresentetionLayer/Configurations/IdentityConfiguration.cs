@@ -19,7 +19,10 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
                 .AddEntityFrameworkStores<AutenticationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            services.AddAuthentication(opt => {
+                        opt.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        opt.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    })
                     .AddCookie(opt =>
                     {
                         opt.LoginPath = "/login";
