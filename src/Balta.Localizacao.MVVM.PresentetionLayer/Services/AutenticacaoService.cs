@@ -33,11 +33,11 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
             if (result.IsLockedOut)
             {
-                AdicionarErro("Usuario temporariamente bloqueado por tentativas invalidas");
+                await AdicionarErro("Usuario temporariamente bloqueado por tentativas invalidas");
                 return CustomResponse;
             }
 
-            AdicionarErro("Usuario ou senha incorretos");
+            await AdicionarErro("Usuario ou senha incorretos");
             return CustomResponse;
         }
         
@@ -67,7 +67,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
             foreach (var error in result.Errors)
             {
-                AdicionarErro(error.Description);
+                await AdicionarErro(error.Description);
             }
 
             return CustomResponse;
