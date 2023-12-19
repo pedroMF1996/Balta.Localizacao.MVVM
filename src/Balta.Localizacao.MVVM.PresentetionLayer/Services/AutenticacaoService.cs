@@ -3,9 +3,7 @@ using Balta.Localizacao.MVVM.Domain.Models;
 using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.AutenticaoViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity; 
+using Microsoft.AspNetCore.Identity;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 {
