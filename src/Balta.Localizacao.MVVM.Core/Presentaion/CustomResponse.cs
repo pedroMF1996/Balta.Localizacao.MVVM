@@ -1,11 +1,10 @@
-﻿using Balta.Localizacao.MVVM.Core.Domain;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 namespace Balta.Localizacao.MVVM.Core.Presentaion
 {
-    public class CustomResponse<T> where T : BaseModel?
+    public class CustomResponse<BaseViewModel>
     {
         private ValidationResult _validationResult;
-        public BaseViewModel<T> ViewModel { get; private set; }
+        public BaseViewModel ViewModel { get; private set; }
         public IReadOnlyCollection<string> Errors => _validationResult.Errors.Select(e => e.ErrorMessage).ToList();
         public CustomResponse()
         {
@@ -17,7 +16,7 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
             _validationResult.Errors.Add(new ValidationFailure("Erro de processamento", errorMessage));
         }
 
-        public async Task AtribuirViewModel(BaseViewModel<T> viewModel)
+        public async Task AtribuirViewModel(BaseViewModel viewModel)
         {
             ViewModel = viewModel;
         }

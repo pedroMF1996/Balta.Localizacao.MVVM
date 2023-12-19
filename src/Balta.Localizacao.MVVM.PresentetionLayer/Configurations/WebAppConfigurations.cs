@@ -7,8 +7,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
     public static class WebAppConfigurations
     {
         public static void AddWebAppConfiguration(this IServiceCollection services,
-                                                    IConfiguration configuration,
-                                                    IWebHostEnvironment environment)
+                                                    IConfiguration configuration)
         {
             services.AddIdentityConfiguration(configuration);
 
