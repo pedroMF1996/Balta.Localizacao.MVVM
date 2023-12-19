@@ -27,7 +27,7 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
             _validationResult = validationResult;
         }
 
-        public async Task<bool> IsValid()
+        public async Task<bool> IsCompleted()
         {
             return _validationResult.IsValid;
         }

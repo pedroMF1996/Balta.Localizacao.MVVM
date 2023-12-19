@@ -15,7 +15,7 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
 
         public virtual async Task<bool> PossuiErros()
         {
-            return await CustomResponse.IsValid();
+            return await CustomResponse.IsCompleted();
         }
 
         public virtual async Task AdicionarErro(string errorMessage)
