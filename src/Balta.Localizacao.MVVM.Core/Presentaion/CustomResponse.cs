@@ -1,10 +1,10 @@
 ﻿using FluentValidation.Results;
 namespace Balta.Localizacao.MVVM.Core.Presentaion
 {
-    public class CustomResponse<BaseViewModel>
+    public class CustomResponse
     {
         private ValidationResult _validationResult;
-        public BaseViewModel ViewModel { get; private set; }
+        public IBaseViewModel ViewModel { get; private set; }
         public IReadOnlyCollection<string> Errors => _validationResult.Errors.Select(e => e.ErrorMessage).ToList();
         public CustomResponse()
         {
@@ -14,7 +14,7 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
         public async Task AdicionarErro(string errorMessage)
             => _validationResult.Errors.Add(new ValidationFailure("Erro de processamento", errorMessage));
 
-        public async Task AtribuirViewModel(BaseViewModel viewModel)
+        public async Task AtribuirViewModel(IBaseViewModel viewModel)
             => ViewModel = viewModel;
 
         public async Task AtribuirValidationResult(ValidationResult validationResult)

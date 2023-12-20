@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.IbgeViewModels
 {
-    public sealed class IbgeExcluirViewModel : BaseViewModel
+    public sealed class IbgeExcluirViewModel : IBaseViewModel
     {
         [Required(ErrorMessage = " campo Codigo é obrigatorio.")]
         [MaxLength(7, ErrorMessage = "O campo Codigo deve conter 7 caracteres.")]

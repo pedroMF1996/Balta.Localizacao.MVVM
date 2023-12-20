@@ -14,41 +14,31 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
             _repository = repository;
         }
 
-        public async Task<CustomResponse<IbgeModel>> AdicionarIbge(IbgeAdicionarViewModel viewModel)
-
-
+        public async Task<CustomResponse> AdicionarIbge(IbgeAdicionarViewModel viewModel)
         {
-            var customerResponse = new CustomResponse<IbgeModel>();
             var ibgeModel = new IbgeModel(viewModel.Id, viewModel.State, viewModel.City);
 
             if (!ibgeModel.IsValid())
             {
-                ibgeModel.ValidationResult.Errors.ForEach(async x => await customerResponse.AdicionarErro(x.ErrorMessage));
-
-                return customerResponse;
+                ibgeModel.ValidationResult.Errors.ForEach(async x => await CustomResponse.AdicionarErro(x.ErrorMessage));
+                await AtribuirViewModel(viewModel);
+                return CustomResponse;
             }
 
             await _repository.AdicionarIbge(ibgeModel);
 
-            await _repository.UnitOfWork.Commit();
-
-            return customerResponse;
-
-
+            return await PersistirDados(_repository.UnitOfWork);
         }
 
-        public async Task<CustomResponse<IbgeModel>> AtualizarIbge(IbgeAtualizarViewModel viewModel, string id)
+        public async Task<CustomResponse> AtualizarIbge(IbgeAtualizarViewModel viewModel, string id)
         {
             var ibgesModel = await _repository.ObterIbgesModel(new BuscarPorIbgeIdSpecification(id));
-
-            var customerResponse = new CustomResponse<IbgeModel>();
-
+            
             if (ibgesModel.Count() == 0)
             {
-                await customerResponse.AdicionarErro("Não existe esse Ibge");
+                await AdicionarErro("Não existe esse Ibge");
 
-                return customerResponse;
-
+                return CustomResponse;
             }
 
             var ibgeModel = ibgesModel.Single();
@@ -59,15 +49,11 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
             await _repository.EditarIbgeModel(ibgeModel);
 
-            await _repository.UnitOfWork.Commit();
-
-            return customerResponse;
+            return await PersistirDados(_repository.UnitOfWork);
         }
 
-        public async Task<CustomResponse<IEnumerable<IbgeModel>>>ListarIbge(IbgeListarViewModel viewModel)
+        public async Task<CustomResponse> ListarIbge(IbgeListarViewModel viewModel)
         {
-            var customerResponse = new CustomResponse<IEnumerable<IbgeModel>>();
-
             var result = await _repository.ObterIbgesModel(new 
                 BuscarPorCityStateIdSpecification(
                 viewModel.City, 
@@ -75,36 +61,34 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
                 viewModel.Id, 
                 viewModel.Size,
                 viewModel.Skip)); 
+            viewModel.Ibges = result;
 
             if(result.Count() == 0)
             {
-              return customerResponse;
+              return CustomResponse;
             }
-            await customerResponse.AtribuirViewModel(result);
 
-            return customerResponse;
+            await AtribuirViewModel(viewModel);
+
+            return CustomResponse;
         }
 
-        public async Task<CustomResponse<IbgeModel>> RemoveIbge(IbgeExcluirViewModel viewModel)
+        public async Task<CustomResponse> RemoveIbge(IbgeExcluirViewModel viewModel)
         {
             var ibgesModel = await _repository.ObterIbgesModel(new BuscarPorIbgeIdSpecification(viewModel.Id));
-            var customerResponse = new CustomResponse<IbgeModel>();
-
+            
             if (ibgesModel.Count() == 0)
             {
-                await customerResponse.AdicionarErro("Não existe esse Ibge");
+                await AdicionarErro("Não existe esse Ibge");
 
-                return customerResponse;
+                return CustomResponse;
             }
 
             var ibgeModel = ibgesModel.Single();
 
             await _repository.RemoverIbgeModel(ibgeModel);
 
-            await _repository.UnitOfWork.Commit();
-
-            return customerResponse;
+            return await PersistirDados(_repository.UnitOfWork);
         }
-
     }
 }

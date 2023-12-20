@@ -347,7 +347,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             ibgeRepository.Setup(s => s.UnitOfWork).Returns(unitWork.Object);
 
-            var customerResponse = new CustomResponse<IEnumerable<IbgeModel>>();
+            var customerResponse = new CustomResponse();
             // Act
             var result = await service.ListarIbge(viewModel);
 
