@@ -3,6 +3,8 @@ using Balta.Localizacao.MVVM.Core.Presentaion;
 using Xunit;
 using Moq.AutoMock;
 using FluentValidation.Results;
+using Balta.Localizacao.MVVM.Core.Data;
+using Balta.Localizacao.MVVM.Domain.Models;
 
 namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 {
@@ -136,6 +138,88 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             // Assert
             Assert.Equal(validationResult.IsValid, await result.IsCompleted());
+        }
+
+        [Fact(DisplayName = "AdicionarErro Ao CustomResponse Do Service")]
+        [Trait("Categoria", "BaseService")]
+        public async Task AdicionarErroAoCustomResponseDoService_IbgeAtualizarViewModel_AdicionarErroComSucesso()
+        {
+            // Arrange
+            var automocker = new AutoMocker();
+            var service = automocker.CreateInstance<ServiceMock>();
+
+            // Act
+            await service.AdicionarErro("Teste");
+
+            // Assert
+            Assert.Equal("Teste", await service.CustomResponse.ObterPrimeiroErro());
+        }
+        
+        [Fact(DisplayName = "AdicionarErro ValidationResult Ao CustomResponse Do Service")]
+        [Trait("Categoria", "BaseService")]
+        public async Task AdicionarErroValidationResultAoCustomResponseDoService_IbgeAtualizarViewModel_AdicionarErroValidationResultComSucesso()
+        {
+            // Arrange
+            var automocker = new AutoMocker();
+            var service = automocker.CreateInstance<ServiceMock>();
+            var validationResult = new ValidationResult();
+
+            // Act
+            await service.AdicionarErro(validationResult);
+
+            // Assert
+            Assert.Equal(validationResult.IsValid, await service.CustomResponse.IsCompleted());
+        }
+
+        [Fact(DisplayName = "PossuiErros Service")]
+        [Trait("Categoria", "BaseService")]
+        public async Task PossuiErroCustomResponseDoService_CustomResponseDoService_PossuiErroComSucesso()
+        {
+            // Arrange
+            var automocker = new AutoMocker();
+            var service = automocker.CreateInstance<ServiceMock>();
+
+            // Act
+            await service.AdicionarErro("Teste");
+
+            // Assert
+            Assert.True(await service.PossuiErros());
+        }
+        
+        [Fact(DisplayName = "PersistirDados Do Service Com Sucesso")]
+        [Trait("Categoria", "BaseService")]
+        public async Task PersistirDadosService_CustomResponseDoService_PersistirDadosComSucesso()
+        {
+            // Arrange
+            var automocker = new AutoMocker();
+            var service = automocker.CreateInstance<ServiceMock>();
+            var unitOfWork = automocker.GetMock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.Commit())
+                .Returns(Task.FromResult(true));
+
+            // Act
+            await service.PersistirDados(unitOfWork.Object);
+
+            // Assert
+            Assert.False(await service.PossuiErros());
+        }
+        
+        [Fact(DisplayName = "PersistirDados Do Service Com Falha")]
+        [Trait("Categoria", "BaseService")]
+        public async Task PersistirDadosService_CustomResponseDoService_PersistirDadosComFalha()
+        {
+            // Arrange
+            var automocker = new AutoMocker();
+            var service = automocker.CreateInstance<ServiceMock>();
+            var unitOfWork = automocker.GetMock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.Commit())
+                .Returns(Task.FromResult(false));
+
+            // Act
+            await service.PersistirDados(unitOfWork.Object);
+
+            // Assert
+            Assert.True(await service.PossuiErros());
         }
     }
 }
