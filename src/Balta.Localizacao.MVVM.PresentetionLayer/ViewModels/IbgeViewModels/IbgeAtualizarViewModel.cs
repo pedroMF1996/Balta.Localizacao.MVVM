@@ -1,10 +1,9 @@
 ﻿using Balta.Localizacao.MVVM.Core.Presentaion;
-using Balta.Localizacao.MVVM.Domain.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.IbgeViewModels
 {
-    public sealed class IbgeAtualizarViewModel:BaseViewModel<IbgeModel>
+    public sealed class IbgeAtualizarViewModel:BaseViewModel
     {
         [Required(ErrorMessage = " campo Codigo é obrigatorio.")]
         [MaxLength(7, ErrorMessage = "O campo Codigo deve conter 7 caracteres.")]
