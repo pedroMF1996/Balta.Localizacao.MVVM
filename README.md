@@ -1,63 +1,44 @@
-Bem-vindo ao repositório do Desafio IBGE! Este projeto oferece uma aplicação web com funcionalidades relacionadas a dados de cidades e estados do Brasil, utilizando o [conjunto de dados do IBGE](https://github.com/andrebaltieri/ibge).
+# Desafio IBGE - Sistema de Localidades
 
-## Funcionalidades Base
+Bem-vindo ao Desafio IBGE, um projeto que oferece uma aplicação web avançada para gerenciar dados de cidades e estados do Brasil, utilizando o [conjunto de dados do IBGE](https://github.com/andrebaltieri/ibge).
 
-O projeto oferece as seguintes funcionalidades:
+## Funcionalidades Principais
 
-- Autenticação usando Identity
-- CRUD de Localidade (Código, Estado, Cidade -- Id, City, State)
-- Pesquisa por cidade
-- Pesquisa por estado
-- Pesquisa por código (IBGE)
+- **Autenticação Robusta:** Utilizando Identity para garantir segurança e controle de acesso.
+- **CRUD de Localidades:** Gerencie dados de cidades e estados de forma eficiente.
+- **Pesquisas Avançadas:** Realize pesquisas por cidade, estado e código IBGE.
+- **Tecnologia Moderna:** Desenvolvido com Blazor 8, SQL Server e EF Core.
 
-## Tecnologias Utilizadas
+## Padrões e Práticas de Desenvolvimento
 
-- Blazor 8 para o desenvolvimento da aplicação web SSR.
-- Banco de dados SQL Server.
-- Entity Framework Core para a camada de dados.
-- Fluent UI Web Components
-
-## Padrões e Patterns
-
-Os seguintes padrões foram adotados no desenvolvimento:
-
-- ServicePattern
-- IUnitOfWork
-- RepositoryPattern
-- Template Method Pattern
-- MVVM (Model-View-ViewModel)
-- Specification Pattern para os filtros da lista
+- **Arquitetura em Camadas:** Organizado em Core, Domain, Data e Presentation.
+- **Design Patterns:** Implementação de ServicePattern, RepositoryPattern, Specification Pattern, e outros.
+- **MVVM (Model-View-ViewModel):** Adotando boas práticas para a interação entre a lógica de negócios e a interface do usuário.
 
 ## Estrutura do Projeto
 
-O projeto foi organizado em quatro camadas:
-
-1. **Core**: Contém classes abstratas e ferramentas para o desenvolvimento, com uma segmentação em pastas representando cada camada posterior.
-2. **Domain**: Implementação do modelo, validações, interface de repositório e interface de especificação para filtros de listagem.
-3. **Data**: Inclui o DbContext, mapeamento do modelo, migrações, classes relacionadas a especificações e o repositório IbgeRepository.
-4. **Presentation**: Classes ViewModel, serviços, configurações e as interfaces de usuário.
+1. **Core:** Classes abstratas e ferramentas fundamentais.
+2. **Domain:** Implementação do modelo, validações e interfaces.
+3. **Data:** Contém DbContext, migrações e repositório especializado.
+4. **Presentation:** ViewModel, serviços e interfaces do usuário.
 
 ## Páginas da Aplicação
 
-O site possui as seguintes páginas:
-
-1. **Sobre o Desafio**: Breve descrição do desafio.
-2. **Login**: Página de autenticação.
-3. **Cadastro de Usuário**: Registro de novos usuários.
-4. **Gerenciamento de Perfil de Usuário**: Configurações de perfil.
-5. **Listagem dos Registros IBGE**: Filtragem por cidade, estado e código IBGE.
-6. **Inserção de Registro IBGE**: Adição de novos registros.
-7. **Edição de Registro IBGE**: Atualização de registros existentes.
+- **Sobre o Desafio:** Visão geral do projeto e do desafio proposto.
+- **Login:** Autenticação segura para acesso à plataforma.
+- **Cadastro de Usuário:** Registro intuitivo de novos usuários.
+- **Gerenciamento de Perfil:** Configurações de perfil de usuário personalizadas.
+- **Listagem de Registros IBGE:** Pesquisa eficiente por cidade, estado e código IBGE.
+- **Inserção e Edição de Registros IBGE:** Adição e atualização de informações de forma simplificada.
 
 ## Fluxo de Referência de Projeto
 
-O fluxo de referência de projeto segue a ordem: **Core -> Domain -> Data -> Presentation**.
+- **Fluxo de Camadas:** Core -> Domain -> Data -> Presentation.
+- **Testes Unitários:** Cobertura de testes nas camadas Domain e Presentation.
 
-## Testes Unitários
+## Contato
 
-As camadas de **Domain** e **Presentation** possuem testes unitários para validar diversos cenários que podem ocorrer.
-
-Agradecemos por explorar este projeto! Se tiver alguma dúvida ou sugestão, sinta-se à vontade para contribuir ou entrar em contato.
+Para dúvidas ou mais informações, entre em contato com nossa equipe de desenvolvimento.
 
 
 <details Open> 
