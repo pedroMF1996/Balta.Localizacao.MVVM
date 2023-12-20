@@ -9,3 +9,13 @@
 @using Microsoft.JSInterop
 @using Balta.Localizacao.MVVM.PresentetionLayer
 @using Balta.Localizacao.MVVM.PresentetionLayer.Components
+@using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.IbgeViewModels
+@using Balta.Localizacao.MVVM.PresentetionLayer.Services
+@using Microsoft.FluentUI.AspNetCore.Components
+@using Balta.Localizacao.MVVM.Domain.Models
+@using Balta.Localizacao.MVVM.Core.Presentaion
+
+@inject IbgeService _service
+@inject IDialogService DialogService
+@inject IToastService ToastService
+@inject NavigationManager NavigationManager

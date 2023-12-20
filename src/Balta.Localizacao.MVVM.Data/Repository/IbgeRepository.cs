@@ -3,13 +3,7 @@ using Balta.Localizacao.MVVM.Data.SpecificationBase;
 using Balta.Localizacao.MVVM.Domain.Interfaces;
 using Balta.Localizacao.MVVM.Domain.Models;
 using Balta.Localizacao.MVVM.Domain.Specification;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Balta.Localizacao.MVVM.Data.Repositorios
 {
@@ -45,6 +39,11 @@ namespace Balta.Localizacao.MVVM.Data.Repositorios
             return await AplicandoSpecification(filter)
                                             .AsNoTracking()
                                             .ToListAsync();
+        }
+
+        public async Task<IEnumerable<IbgeModel>> ObterIbgesModel()
+        {
+            return await _localizacaoDbContex.Ibges.AsNoTracking().ToListAsync();
         }
 
         public async Task RemoverIbgeModel(IbgeModel ibgeModel)

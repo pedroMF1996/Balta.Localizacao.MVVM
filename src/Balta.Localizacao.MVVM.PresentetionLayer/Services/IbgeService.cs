@@ -54,13 +54,18 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
         public async Task<CustomResponse> ListarIbge(IbgeListarViewModel viewModel)
         {
-            var result = await _repository.ObterIbgesModel(new 
-                BuscarPorCityStateIdSpecification(
-                viewModel.City, 
-                viewModel.State, 
-                viewModel.Id, 
-                viewModel.Size,
-                viewModel.Skip)); 
+            IEnumerable<IbgeModel> result;
+
+            if (string.IsNullOrEmpty(viewModel.Id) && string.IsNullOrEmpty(viewModel.State) && string.IsNullOrEmpty(viewModel.City))
+                result = await _repository.ObterIbgesModel();
+            else
+                result = await _repository.ObterIbgesModel(new
+                    BuscarPorCityStateIdSpecification(
+                    viewModel.City,
+                    viewModel.State,
+                    viewModel.Id,
+                    viewModel.Size,
+                    viewModel.Skip)); 
             viewModel.Ibges = result;
 
             if(result.Count() == 0)

@@ -1,0 +1,106 @@
+﻿@page "/Listar"
+@rendermode InteractiveServer
+
+
+<PageTitle>Listar localizacao</PageTitle>
+@if (ibges == null)
+{
+  <FluentProgressRing Style="width:30px;height:30px" />
+}
+else
+{
+
+    <FluentStack HorizontalAlignment="HorizontalAlignment.End">
+        <FluentAnchor Href="/ibge-form"
+                      IconStart="@(new Icons.Regular.Size24.PersonAdd().WithColor(Color.Success))">
+            Novo Registro Ibge
+        </FluentAnchor>
+    </FluentStack>
+
+    <div class="grid">
+        <FluentDataGrid Id="alunogrid" Items="@ibges" TGridItem="IbgeModel" Pagination="@pagination">
+            <PropertyColumn Title="Codigo" Property="@(c => c!.Id)" Sortable="true" Align=Align.Start/>
+            <PropertyColumn Title="Estado" Property="@(c => c!.State)" Sortable="true" Align=Align.Start/>
+            <PropertyColumn Title="Cidade" Property="@(c => c!.City)" Sortable="true" Align=Align.Start/>
+            <TemplateColumn Align="@Align.End">
+                <FluentButton Appearance="Appearance.Outline" OnClick="()=>ConfirmarExclusao(context.Id)"
+                              IconStart="@(new Icons.Regular.Size24.Delete().WithColor(Color.Error))">Deleta</FluentButton>
+
+                <FluentAnchor IconStart="@(new Icons.Regular.Size24.Edit().WithColor(Color.Success))"
+                              Appearance="Appearance.Outline"
+                              Href="@($"/ibge-form/{context.Id}")">Edita</FluentAnchor>
+            </TemplateColumn>
+        </FluentDataGrid>
+    </div>
+    <br />
+    
+    <FluentPaginator State="@pagination" />
+    
+}
+
+@code {
+    public IbgeListarViewModel ViewModelListar{ get; set; }
+    public IbgeExcluirViewModel ViewModelExcluir { get; set; }
+    public IQueryable<IbgeModel> ibges { get; set; }
+
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+
+    protected override async Task OnInitializedAsync()
+    {
+        ViewModelListar = new();
+        ViewModelExcluir = new();
+        await Task.Delay(1000);
+        await CarregaIbges();
+        await base.OnInitializedAsync();
+    }
+
+
+    private async Task CarregaIbges()
+    {
+        var result = await _service.ListarIbge(ViewModelListar);
+        if(await result.IsCompleted()){
+            ibges = ((IbgeListarViewModel)result.ViewModel)?.Ibges.AsQueryable();
+            pagination.TotalItemCountChanged += (sender, eventArgs) => StateHasChanged();
+        }
+    }
+
+    private async Task ConfirmarExclusao(string id)
+    {
+        var dialog = await DialogService.ShowConfirmationAsync($"Confirma exclusão do registro de id={id} ?",
+                          "Sim", "Não", "Deletar Registro");
+
+        var result = await dialog.Result;
+
+        ViewModelExcluir.Id = id;
+        if (!result.Cancelled)
+        {
+            var customResponse = await _service.RemoveIbge(ViewModelExcluir);
+            if (await customResponse.IsCompleted())
+            {
+                ToastService.ShowSuccess("Registro IBGE excluído com sucesso!");
+                await CarregaIbges();
+            }
+            else
+            {
+                ToastService.ShowError($"Não foi possível excluir o aluno com id={id}");
+            }
+        }
+        else
+        {
+            ToastService.ShowInfo($"Operação cancelada");
+        }
+    }
+
+    private async Task GoToPageAsync(int pageIndex)
+    {
+        await pagination.SetCurrentPageIndexAsync(pageIndex);
+    }
+
+    private Appearance PageButtonAppearance(int pageIndex)
+        => pagination.CurrentPageIndex == pageIndex ? Appearance.Accent : Appearance.Neutral;
+
+    private string? AriaCurrentValue(int pageIndex)
+        => pagination.CurrentPageIndex == pageIndex ? "page" : null;
+
+    private string AriaLabel(int pageIndex) => $"Ir para pag. {pageIndex}";
+}

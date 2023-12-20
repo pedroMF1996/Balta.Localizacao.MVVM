@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Balta.Localizacao.MVVM.Data;
 using Balta.Localizacao.MVVM.Core.Data;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
 {
@@ -19,6 +20,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Configurations
             services.AddRazorPages();
             services.AddRazorComponents()
                     .AddInteractiveServerComponents();
+            services.AddFluentUIComponents();
 
             services.AddOptions();
             services.AddAuthorizationCore();

@@ -12,7 +12,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.IbgeViewModels
         [MaxLength(7, ErrorMessage = "O campo Codigo deve conter 7 caracteres.")]
         [RegularExpression("/[^0-9]/", ErrorMessage = "O campo Codigo deve conter apenas numeros.")]
         public string Id { get; set; }
-        public int Size { get; set; } = 10;
+        public int Size { get; set; } = int.MaxValue;
         public int Skip { get; set; } = 0;
         public IEnumerable<IbgeModel> Ibges { get; set; }
     }
