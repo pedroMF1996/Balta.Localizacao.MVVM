@@ -25,12 +25,12 @@ namespace Balta.Localizacao.MVVM.Data.Repositorios
 
         public async Task EditarIbgeModel(IbgeModel ibgeModel)
         {
-            await _localizacaoDbContex.Ibges.ExecuteUpdateAsync(
-                x=>x
-                    .SetProperty(x=>x.Id,x=>ibgeModel.Id)
-                    .SetProperty(x=>x.City,x=> ibgeModel.City)
-                    .SetProperty(x=>x.State,x=>ibgeModel.State)
-                );
+            _localizacaoDbContex.Ibges.Update(ibgeModel);
+        }
+
+        public async Task<IbgeModel> ObterIbgeModelPorId(string Id)
+        {
+            return await _localizacaoDbContex.Ibges.FirstOrDefaultAsync(x => x.Id == Id);
         }
 
         public async Task<IEnumerable<IbgeModel>> ObterIbgesModel(ISpecification<IbgeModel>filter)

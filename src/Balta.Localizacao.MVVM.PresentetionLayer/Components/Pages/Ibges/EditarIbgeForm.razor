@@ -1,5 +1,4 @@
-﻿@page "/ibge-form"
-
+﻿@page "/ibge-form/{Id}"
 @rendermode InteractiveServer
 
 <PageTitle>
@@ -39,20 +38,30 @@
     [Parameter]
     public string? Id { get; set; } = null;
 
-    private string pageTitle => "Novo Registro IBGE";
+    private string pageTitle = "Editar Registro IBGE";
 
     [SupplyParameterFromForm]
-    public IbgeAdicionarViewModel? ViewModel { get; set; } = new IbgeAdicionarViewModel();
+    public IbgeAtualizarViewModel? ViewModel { get; set; } = new IbgeAtualizarViewModel();
 
     protected override async Task OnInitializedAsync()
-    {   
+    {
+        var request = new IbgeObterPorIdViewModel() { Id = Id };
+        var response = await _service.ObterIbgePorId(request);
+
+        if (await response.IsCompleted())
+        {
+            ViewModel.Id = ((IbgeObterPorIdResultViewModel)response.ViewModel).Id;
+            ViewModel.State = ((IbgeObterPorIdResultViewModel)response.ViewModel).State;
+            ViewModel.City = ((IbgeObterPorIdResultViewModel)response.ViewModel).City;
+        }
+
         await base.OnInitializedAsync();
     }
 
     private async Task Save()
-    {   
-        var response = await _service.AdicionarIbge(ViewModel!);
-        if (!await response.IsCompleted())
+    {
+        var response = await _service.AtualizarIbge(ViewModel!, Id!);
+        if(!await response.IsCompleted())
         {
             foreach (var erro in response.Errors)
             {
@@ -61,9 +70,9 @@
         }
         else
         {
-            DialogService.ShowSuccess($"Registro IBGE {ViewModel.City} incluido com sucesso");
+            DialogService.ShowSuccess($"Registro IBGE {ViewModel!.City} atualizado com sucesso");
         
-            ToastService.ShowInfo($"Retornando para lista de registros");
+            ToastService.ShowInfo($"Retornando para lista de alunos");
             await Task.Delay(1500);
             NavigationManager.NavigateTo("/listar");
         }

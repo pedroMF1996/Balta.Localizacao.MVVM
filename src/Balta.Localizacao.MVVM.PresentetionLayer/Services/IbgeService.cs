@@ -32,26 +32,41 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
         public async Task<CustomResponse> AtualizarIbge(IbgeAtualizarViewModel viewModel, string id)
         {
-            var ibgesModel = await _repository.ObterIbgesModel(new BuscarPorIbgeIdSpecification(id));
-            
-            if (ibgesModel.Count() == 0)
+            var ibge = await _repository.ObterIbgeModelPorId(viewModel.Id);
+
+            if (ibge is null)
             {
                 await AdicionarErro("Não existe esse Ibge");
-
                 return CustomResponse;
             }
 
-            var ibgeModel = ibgesModel.Single();
+            await ibge.SetState(viewModel.State);
+            await ibge.SetCity(viewModel.City);
+            await ibge.SetId(viewModel.Id);
 
-            await ibgeModel.SetState(viewModel.State);
-            await ibgeModel.SetCity(viewModel.City);
-            await ibgeModel.SetId(viewModel.Id);
-
-            await _repository.EditarIbgeModel(ibgeModel);
+            await _repository.EditarIbgeModel(ibge);
 
             return await PersistirDados(_repository.UnitOfWork);
         }
 
+        public async Task<CustomResponse> ObterIbgePorId(IbgeObterPorIdViewModel viewModel)
+        {
+            var ibge = await _repository.ObterIbgeModelPorId(viewModel.Id);
+            
+            if (ibge is null)
+            {
+                await AdicionarErro("Não existe esse Ibge");
+                return CustomResponse;
+            }
+
+            IbgeObterPorIdResultViewModel result = new(){
+               Id= ibge.Id,
+               State = ibge.State,
+               City = ibge.City
+            };
+            await AtribuirViewModel(result);
+            return CustomResponse;
+        }
         public async Task<CustomResponse> ListarIbge(IbgeListarViewModel viewModel)
         {
             IEnumerable<IbgeModel> result;

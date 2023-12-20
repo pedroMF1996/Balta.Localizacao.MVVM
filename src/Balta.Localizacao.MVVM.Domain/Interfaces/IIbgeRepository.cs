@@ -11,5 +11,6 @@ namespace Balta.Localizacao.MVVM.Domain.Interfaces
         Task RemoverIbgeModel(IbgeModel ibgeModel);
         Task<IEnumerable<IbgeModel>> ObterIbgesModel(ISpecification<IbgeModel> filter);
         Task<IEnumerable<IbgeModel>> ObterIbgesModel();
+        Task<IbgeModel> ObterIbgeModelPorId(string Id);
     }
 }
