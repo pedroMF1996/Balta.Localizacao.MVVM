@@ -1,3 +1,65 @@
+Bem-vindo ao repositório do Desafio IBGE! Este projeto oferece uma aplicação web com funcionalidades relacionadas a dados de cidades e estados do Brasil, utilizando o [conjunto de dados do IBGE](https://github.com/andrebaltieri/ibge).
+
+## Funcionalidades Base
+
+O projeto oferece as seguintes funcionalidades:
+
+- Autenticação usando Identity
+- CRUD de Localidade (Código, Estado, Cidade -- Id, City, State)
+- Pesquisa por cidade
+- Pesquisa por estado
+- Pesquisa por código (IBGE)
+
+## Tecnologias Utilizadas
+
+- Blazor 8 para o desenvolvimento da aplicação web SSR.
+- Banco de dados SQL Server.
+- Entity Framework Core para a camada de dados.
+- Fluent UI Web Components
+
+## Padrões e Patterns
+
+Os seguintes padrões foram adotados no desenvolvimento:
+
+- ServicePattern
+- IUnitOfWork
+- RepositoryPattern
+- Template Method Pattern
+- MVVM (Model-View-ViewModel)
+- Specification Pattern para os filtros da lista
+
+## Estrutura do Projeto
+
+O projeto foi organizado em quatro camadas:
+
+1. **Core**: Contém classes abstratas e ferramentas para o desenvolvimento, com uma segmentação em pastas representando cada camada posterior.
+2. **Domain**: Implementação do modelo, validações, interface de repositório e interface de especificação para filtros de listagem.
+3. **Data**: Inclui o DbContext, mapeamento do modelo, migrações, classes relacionadas a especificações e o repositório IbgeRepository.
+4. **Presentation**: Classes ViewModel, serviços, configurações e as interfaces de usuário.
+
+## Páginas da Aplicação
+
+O site possui as seguintes páginas:
+
+1. **Sobre o Desafio**: Breve descrição do desafio.
+2. **Login**: Página de autenticação.
+3. **Cadastro de Usuário**: Registro de novos usuários.
+4. **Gerenciamento de Perfil de Usuário**: Configurações de perfil.
+5. **Listagem dos Registros IBGE**: Filtragem por cidade, estado e código IBGE.
+6. **Inserção de Registro IBGE**: Adição de novos registros.
+7. **Edição de Registro IBGE**: Atualização de registros existentes.
+
+## Fluxo de Referência de Projeto
+
+O fluxo de referência de projeto segue a ordem: **Core -> Domain -> Data -> Presentation**.
+
+## Testes Unitários
+
+As camadas de **Domain** e **Presentation** possuem testes unitários para validar diversos cenários que podem ocorrer.
+
+Agradecemos por explorar este projeto! Se tiver alguma dúvida ou sugestão, sinta-se à vontade para contribuir ou entrar em contato.
+
+
 <details Open> 
   <summary>
    <h1>Artigos & Pesquisas 📑</h1>
