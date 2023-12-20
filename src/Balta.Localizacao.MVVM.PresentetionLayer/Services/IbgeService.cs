@@ -18,20 +18,21 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
 
         {
+            var customerResponse = new CustomResponse<IbgeModel>();
             var ibgeModel = new IbgeModel(viewModel.Id, viewModel.State, viewModel.City);
 
             if (!ibgeModel.IsValid())
             {
-                ibgeModel.ValidationResult.Errors.ForEach(async x => await AdicionarErro(x.ErrorMessage));
+                ibgeModel.ValidationResult.Errors.ForEach(async x => await customerResponse.AdicionarErro(x.ErrorMessage));
 
-                return CustomResponse;
+                return customerResponse;
             }
 
             await _repository.AdicionarIbge(ibgeModel);
 
             await _repository.UnitOfWork.Commit();
 
-            return CustomResponse;
+            return customerResponse;
 
 
         }
@@ -40,11 +41,13 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
         {
             var ibgesModel = await _repository.ObterIbgesModel(new BuscarPorIbgeIdSpecification(id));
 
+            var customerResponse = new CustomResponse<IbgeModel>();
+
             if (ibgesModel.Count() == 0)
             {
-                await AdicionarErro("Não existe esse Ibge");
+                await customerResponse.AdicionarErro("Não existe esse Ibge");
 
-                return CustomResponse;
+                return customerResponse;
 
             }
 
@@ -58,11 +61,13 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
             await _repository.UnitOfWork.Commit();
 
-            return CustomResponse;
+            return customerResponse;
         }
 
-        public async Task<IEnumerable<IbgeModel>>ListarIbge(IbgeListarViewModel viewModel)
+        public async Task<CustomResponse<IEnumerable<IbgeModel>>>ListarIbge(IbgeListarViewModel viewModel)
         {
+            var customerResponse = new CustomResponse<IEnumerable<IbgeModel>>();
+
             var result = await _repository.ObterIbgesModel(new 
                 BuscarPorCityStateIdSpecification(
                 viewModel.City, 
@@ -73,22 +78,23 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
             if(result.Count() == 0)
             {
-              return new List<IbgeModel>();
+              return customerResponse;
             }
+            await customerResponse.AtribuirViewModel(result);
 
-             return result;
+            return customerResponse;
         }
 
         public async Task<CustomResponse<IbgeModel>> RemoveIbge(IbgeExcluirViewModel viewModel)
         {
             var ibgesModel = await _repository.ObterIbgesModel(new BuscarPorIbgeIdSpecification(viewModel.Id));
-
+            var customerResponse = new CustomResponse<IbgeModel>();
 
             if (ibgesModel.Count() == 0)
             {
-                await AdicionarErro("Não existe esse Ibge");
+                await customerResponse.AdicionarErro("Não existe esse Ibge");
 
-                return CustomResponse;
+                return customerResponse;
             }
 
             var ibgeModel = ibgesModel.Single();
@@ -97,7 +103,7 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
             await _repository.UnitOfWork.Commit();
 
-            return CustomResponse;
+            return customerResponse;
         }
 
     }
