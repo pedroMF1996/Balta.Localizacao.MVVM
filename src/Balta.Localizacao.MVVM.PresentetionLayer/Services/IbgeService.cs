@@ -67,20 +67,11 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
             await AtribuirViewModel(result);
             return CustomResponse;
         }
+
         public async Task<CustomResponse> ListarIbge(IbgeListarViewModel viewModel)
         {
-            IEnumerable<IbgeModel> result;
+            IEnumerable<IbgeModel> result = await ObterIbgesModel(viewModel);
 
-            if (string.IsNullOrEmpty(viewModel.Id) && string.IsNullOrEmpty(viewModel.State) && string.IsNullOrEmpty(viewModel.City))
-                result = await _repository.ObterIbgesModel();
-            else
-                result = await _repository.ObterIbgesModel(new
-                    BuscarPorCityStateIdSpecification(
-                    viewModel.City,
-                    viewModel.State,
-                    viewModel.Id,
-                    viewModel.Size,
-                    viewModel.Skip)); 
             viewModel.Ibges = result;
 
             if(result.Count() == 0)
@@ -109,6 +100,34 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
             await _repository.RemoverIbgeModel(ibgeModel);
 
             return await PersistirDados(_repository.UnitOfWork);
+        }
+
+        private async Task<IEnumerable<IbgeModel>> ObterIbgesModel(IbgeListarViewModel viewModel)
+        {
+            IEnumerable<IbgeModel> result;
+
+            if (!string.IsNullOrEmpty(viewModel.Id) && !string.IsNullOrEmpty(viewModel.State) && !string.IsNullOrEmpty(viewModel.City))
+                result = await _repository.ObterIbgesModel(new BuscarPorCityStateIdSpecification(viewModel.City,
+                                                                                                  viewModel.State,
+                                                                                                  viewModel.Id,
+                                                                                                  viewModel.Size,
+                                                                                                  viewModel.Skip));
+            else if (!string.IsNullOrEmpty(viewModel.Id) && !string.IsNullOrEmpty(viewModel.State))
+                result = await _repository.ObterIbgesModel(new BuscarPorStateIdSpecification(viewModel.State, viewModel.Id));
+            else if (!string.IsNullOrEmpty(viewModel.State) && !string.IsNullOrEmpty(viewModel.City))
+                result = await _repository.ObterIbgesModel(new BuscarPorStateCitySpecification(viewModel.State, viewModel.City));
+            else if (!string.IsNullOrEmpty(viewModel.Id) && !string.IsNullOrEmpty(viewModel.City))
+                result = await _repository.ObterIbgesModel(new BuscarPorCityIdSpecification(viewModel.City, viewModel.Id));
+            else if (!string.IsNullOrEmpty(viewModel.Id))
+                result = await _repository.ObterIbgesModel(new BuscarPorIbgeIdSpecification(viewModel.Id));
+            else if (!string.IsNullOrEmpty(viewModel.City))
+                result = await _repository.ObterIbgesModel(new BuscarPorCitySpecification(viewModel.City));
+            else if (!string.IsNullOrEmpty(viewModel.State))
+                result = await _repository.ObterIbgesModel(new BuscarPorStateSpecification(viewModel.State));
+            else
+                result = await _repository.ObterIbgesModel();
+
+            return result;
         }
     }
 }

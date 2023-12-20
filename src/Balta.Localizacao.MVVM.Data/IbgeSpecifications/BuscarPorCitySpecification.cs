@@ -3,9 +3,9 @@ using Balta.Localizacao.MVVM.Domain.Models;
 
 namespace Balta.Localizacao.MVVM.Data.IbgeSpecifications
 {
-    public class BuscarPorStateSpecification: BaseSpecification<IbgeModel>
+    public class BuscarPorCitySpecification: BaseSpecification<IbgeModel>
     {
-        public BuscarPorStateSpecification(string state):base(x=>x.State.Contains(state))
+        public BuscarPorCitySpecification(string city) :base(x=>x.City.Contains(city))
         {
 
         }

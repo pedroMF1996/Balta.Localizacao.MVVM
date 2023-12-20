@@ -20,9 +20,36 @@ else
 
     <div class="grid">
         <FluentDataGrid Id="alunogrid" Items="@ibges" TGridItem="IbgeModel" Pagination="@pagination">
-            <PropertyColumn Title="Codigo" Property="@(c => c!.Id)" Sortable="true" Align=Align.Start/>
-            <PropertyColumn Title="Estado" Property="@(c => c!.State)" Sortable="true" Align=Align.Start/>
-            <PropertyColumn Title="Cidade" Property="@(c => c!.City)" Sortable="true" Align=Align.Start/>
+            <TemplateColumn Title="Codigo" InitialSortDirection=SortDirection.Descending IsDefaultSortColumn=true>
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="search" Autofocus=true @bind-Value=idFilter @onchange="async e => await HandleFilter(e, nameof(idFilter))" @bind-Value:after="() => HandleClear(nameof(idFilter))" Placeholder="Codigo" />
+                    </div>
+                </ColumnOptions>
+                <ChildContent>
+                    @(context.Id)
+                </ChildContent>
+            </TemplateColumn>
+            <TemplateColumn Title="Estado" IsDefaultSortColumn=true>
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="search" Autofocus=true @bind-Value=stateFilter @onchange="async e => await HandleFilter(e, nameof(stateFilter))" @bind-Value:after="() => HandleClear(nameof(stateFilter))" Placeholder="Sigla do Estado" />
+                    </div>
+                </ColumnOptions>
+                <ChildContent>
+                    @(context.State)
+                </ChildContent>
+            </TemplateColumn>
+            <TemplateColumn Title="Cidade" IsDefaultSortColumn=true>
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="search" Autofocus=true @bind-Value=cityFilter @onchange="async e => await HandleFilter(e, nameof(cityFilter))" @bind-Value:after="() => HandleClear(nameof(cityFilter))" Placeholder="Cidade" />
+                    </div>
+                </ColumnOptions>
+                <ChildContent>
+                    @(context.City)
+                </ChildContent>
+            </TemplateColumn>
             <TemplateColumn Align="@Align.End">
                 <FluentButton Appearance="Appearance.Outline" OnClick="()=>ConfirmarExclusao(context.Id)"
                               IconStart="@(new Icons.Regular.Size24.Delete().WithColor(Color.Error))">Deleta</FluentButton>
@@ -43,6 +70,9 @@ else
     public IbgeListarViewModel ViewModelListar{ get; set; }
     public IbgeExcluirViewModel ViewModelExcluir { get; set; }
     public IQueryable<IbgeModel> ibges { get; set; }
+    string idFilter = string.Empty;
+    string stateFilter = string.Empty;
+    string cityFilter = string.Empty;
 
     PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
 
@@ -83,7 +113,11 @@ else
             }
             else
             {
-                ToastService.ShowError($"Não foi possível excluir o aluno com id={id}");
+                ToastService.ShowError($"Não foi possível excluir o registro IBGE com id={id}");
+                foreach (var erro in customResponse.Errors)
+                {
+                    DialogService.ShowError(erro);
+                }
             }
         }
         else
@@ -101,7 +135,42 @@ else
         => pagination.CurrentPageIndex == pageIndex ? Appearance.Accent : Appearance.Neutral;
 
     private string? AriaCurrentValue(int pageIndex)
-        => pagination.CurrentPageIndex == pageIndex ? "page" : null;
+        => pagination.CurrentPageIndex == pageIndex ? "pagina" : null;
 
     private string AriaLabel(int pageIndex) => $"Ir para pag. {pageIndex}";
+
+    private async Task HandleFilter(ChangeEventArgs args, string nameFilter)
+    {
+        if (args.Value is string value)
+        {
+            if(nameof(idFilter) == nameFilter)
+                idFilter = value;
+            if(nameof(stateFilter) == nameFilter)
+                stateFilter = value;
+            if(nameof(cityFilter) == nameFilter)
+                cityFilter = value;
+
+            AtualizaViewModelListar();
+            await CarregaIbges();
+        }
+    }
+
+    private void HandleClear(string nameFilter)
+    {   
+        if (string.IsNullOrWhiteSpace(nameFilter))
+        {
+            if (nameof(idFilter) == nameFilter)
+                idFilter = string.Empty;
+            if (nameof(stateFilter) == nameFilter)
+                stateFilter = string.Empty;
+            if (nameof(cityFilter) == nameFilter)
+                cityFilter = string.Empty;
+        }
+    }
+    private void AtualizaViewModelListar()
+    {
+        ViewModelListar.Id = idFilter;
+        ViewModelListar.State = stateFilter;
+        ViewModelListar.City = cityFilter;
+    }
 }
