@@ -1,0 +1,81 @@
+﻿@page "/ibge-form/{Id}"
+@rendermode InteractiveServer
+
+@attribute [Authorize]
+<PageTitle>
+    @pageTitle
+</PageTitle>
+
+<FluentGrid Justify="@JustifyContent.Center">
+    <FluentGridItem>
+        <FluentCard>
+            <FluentLabel Alignment="HorizontalAlignment.Center">
+                @pageTitle
+            </FluentLabel>
+
+            <EditForm Model="ViewModel">
+                <FluentTextField Appearance="FluentInputAppearance.Filled"
+                                 Label="Codigo" Style="width:100%" @bind-Value="ViewModel!.Id" />
+
+                <FluentTextField Appearance="FluentInputAppearance.Filled"
+                                 Label="Estado" Style="width:100%" @bind-Value="ViewModel!.State" />
+
+                <FluentTextField Appearance="FluentInputAppearance.Filled"
+                                   Label="Cidade" Style="width:100%" @bind-Value="ViewModel!.City" />
+
+                <FluentButton Appearance="Appearance.Accent" OnClick="()=>Save()">
+                    @pageTitle
+                </FluentButton>
+
+                <FluentAnchor Href="/alunos"> Cancela</FluentAnchor>
+            </EditForm>
+
+        </FluentCard>
+    </FluentGridItem>
+</FluentGrid>
+
+@code {
+
+    [Parameter]
+    public string? Id { get; set; } = null;
+
+    private string pageTitle = "Editar Registro IBGE";
+
+    [SupplyParameterFromForm]
+    public IbgeAtualizarViewModel? ViewModel { get; set; } = new IbgeAtualizarViewModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new IbgeObterPorIdViewModel() { Id = Id };
+        var response = await _service.ObterIbgePorId(request);
+
+        if (await response.IsCompleted())
+        {
+            ViewModel.Id = ((IbgeObterPorIdResultViewModel)response.ViewModel).Id;
+            ViewModel.State = ((IbgeObterPorIdResultViewModel)response.ViewModel).State;
+            ViewModel.City = ((IbgeObterPorIdResultViewModel)response.ViewModel).City;
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Save()
+    {
+        var response = await _service.AtualizarIbge(ViewModel!, Id!);
+        if(!await response.IsCompleted())
+        {
+            foreach (var erro in response.Errors)
+            {
+                DialogService.ShowError(erro);
+            }
+        }
+        else
+        {
+            DialogService.ShowSuccess($"Registro IBGE {ViewModel!.City} atualizado com sucesso");
+        
+            ToastService.ShowInfo($"Retornando para lista de alunos");
+            await Task.Delay(1500);
+            NavigationManager.NavigateTo("/listar");
+        }
+    }
+}

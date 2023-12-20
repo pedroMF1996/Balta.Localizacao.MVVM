@@ -4,13 +4,13 @@ using FluentValidation.Results;
 
 namespace Balta.Localizacao.MVVM.Core.Presentaion
 {
-    public abstract class BaseService<T> where T : BaseModel?
+    public abstract class BaseService<T> where T : BaseModel? 
     {
-        public CustomResponse<BaseViewModel<T>> CustomResponse { get; private set; }
+        public CustomResponse CustomResponse { get; private set; }
 
         protected BaseService()
         {
-            CustomResponse = new CustomResponse<BaseViewModel<T>>();
+            CustomResponse = new CustomResponse();
         }
 
         public virtual async Task<bool> PossuiErros()
@@ -28,12 +28,12 @@ namespace Balta.Localizacao.MVVM.Core.Presentaion
             await CustomResponse.AtribuirValidationResult(validationResult);
         }
 
-        public virtual async Task AtribuirViewModel(BaseViewModel<T> viewModel)
+        public virtual async Task AtribuirViewModel(IBaseViewModel viewModel)
         {
             await CustomResponse.AtribuirViewModel(viewModel);
         }
 
-        public virtual async Task<CustomResponse<BaseViewModel<T>>> PersistirDados(IUnitOfWork unitOfWork)
+        public virtual async Task<CustomResponse> PersistirDados(IUnitOfWork unitOfWork)
         {
             if(!await unitOfWork.Commit())
                 AdicionarErro("Erro ao persistir dados");

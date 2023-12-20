@@ -21,7 +21,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
                 State = "SP",
                 Id = "3501234"
             };
-            var result = new CustomResponse<IbgeAtualizarViewModel>();
+            var result = new CustomResponse();
 
             // Act
             await result.AtribuirViewModel(viewModel);
@@ -62,7 +62,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
                 State = "SP",
                 Id = "3501234"
             };
-            var result = new CustomResponse<IbgeAtualizarViewModel>();
+            var result = new CustomResponse();
 
             // Act
             await result.AtribuirViewModel(viewModel);
@@ -76,7 +76,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         public async Task CustomResponseIsCompleted_IbgeAtualizarViewModel_IsCompletedComErro()
         {
             // Arrange
-            var result = new CustomResponse<IbgeAtualizarViewModel>();
+            var result = new CustomResponse();
 
             // Act
             await result.AdicionarErro("Teste");
@@ -90,7 +90,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         public async Task CustomResponseContains_IbgeAtualizarViewModel_ContainsErroComSucesso()
         {
             // Arrange
-            var result = new CustomResponse<IbgeAtualizarViewModel>();
+            var result = new CustomResponse();
 
             // Act
             await result.AdicionarErro("Teste");
@@ -104,7 +104,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         public async Task CustomResponseObterPrimeiroErro_IbgeAtualizarViewModel_ObterPrimeiroErroComSucesso()
         {
             // Arrange
-            var result = new CustomResponse<IbgeAtualizarViewModel>();
+            var result = new CustomResponse();
 
             // Act
             await result.AdicionarErro("Teste");
@@ -118,7 +118,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         public async Task CustomResponseObterPrimeiroErro_IbgeAtualizarViewModel_ObterPrimeiroErroComFalha()
         {
             // Arrange
-            var result = new CustomResponse<IbgeAtualizarViewModel>();
+            var result = new CustomResponse();
 
             // Act
             // Assert
@@ -130,7 +130,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         public async Task CustomResponseAtribuirValidationResult_IbgeAtualizarViewModel_AtribuirValidationResultComSucesso()
         {
             // Arrange
-            var result = new CustomResponse<IbgeAtualizarViewModel>();
+            var result = new CustomResponse();
             var validationResult = new ValidationResult();
             
             // Act
