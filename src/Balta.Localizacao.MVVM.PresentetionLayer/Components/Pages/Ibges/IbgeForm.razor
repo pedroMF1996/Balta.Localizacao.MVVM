@@ -26,7 +26,7 @@
                     @pageTitle
                 </FluentButton>
 
-                <FluentAnchor Href="/alunos"> Cancela</FluentAnchor>
+                <FluentAnchor Href="/listar">Cancelar</FluentAnchor>
             </EditForm>
 
         </FluentCard>
@@ -38,7 +38,7 @@
     [Parameter]
     public string? Id { get; set; } = null;
 
-    private string pageTitle => "Novo Registro IBGE";
+    private string pageTitle => "Cadastrar Novo Registro IBGE";
 
     [SupplyParameterFromForm]
     public IbgeAdicionarViewModel? ViewModel { get; set; } = new IbgeAdicionarViewModel();
