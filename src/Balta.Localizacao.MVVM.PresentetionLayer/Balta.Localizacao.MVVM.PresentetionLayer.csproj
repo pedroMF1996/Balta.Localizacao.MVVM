@@ -5,8 +5,6 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-Balta.Localizacao.MVVM.PresentetionLayer-00763e79-893c-4c66-852b-d1a6f9d4a4bf</UserSecretsId>
-	<DisableScopedCssBundling>false</DisableScopedCssBundling>
-	<ScopedCssEnabled>true</ScopedCssEnabled>
   </PropertyGroup>
 
   <ItemGroup>

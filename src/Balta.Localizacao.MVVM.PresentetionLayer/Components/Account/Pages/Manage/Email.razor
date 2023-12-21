@@ -12,9 +12,9 @@
 @inject IdentityUserAccessor UserAccessor
 @inject NavigationManager NavigationManager
 
-<PageTitle>Manage email</PageTitle>
+<PageTitle>Alterar Email</PageTitle>
 
-<h3>Manage email</h3>
+<h3>Alterar Email</h3>
 
 <StatusMessage Message="@message"/>
 <div class="row">
@@ -44,11 +44,11 @@
                 </div>
             }
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
-                <label for="new-email" class="form-label">New email</label>
+                <InputText @bind-Value="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Por favor entre com um novo email." />
+                <label for="new-email" class="form-label">Email Novo</label>
                 <ValidationMessage For="() => Input.NewEmail" class="text-danger" />
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Change email</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Atualizar email</button>
         </EditForm>
     </div>
 </div>
@@ -115,9 +115,9 @@
 
     private sealed class InputModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "New email")]
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [EmailAddress(ErrorMessage = "O campo {0} esta em formato inválido.")]
+        [Display(Name = "Email Novo")]
         public string? NewEmail { get; set; }
     }
 }
