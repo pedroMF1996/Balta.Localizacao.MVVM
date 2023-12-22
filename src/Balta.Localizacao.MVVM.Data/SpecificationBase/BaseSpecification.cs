@@ -1,5 +1,6 @@
 ﻿
 using Balta.Localizacao.MVVM.Domain.Specification;
+using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
 
 
@@ -58,9 +59,11 @@ namespace Balta.Localizacao.MVVM.Data.SpecificationBase
         {
             GroupBy = groupByExpression;
         }
-
-  
-
+          
+        public static bool IsValid(string[] args)
+        {
+            return args.All(x => !x.IsNullOrEmpty());
+        }
 
     }
 }

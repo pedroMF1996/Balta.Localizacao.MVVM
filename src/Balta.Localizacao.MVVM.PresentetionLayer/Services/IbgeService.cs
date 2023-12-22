@@ -86,16 +86,13 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
 
         public async Task<CustomResponse> RemoveIbge(IbgeExcluirViewModel viewModel)
         {
-            var ibgesModel = await _repository.ObterIbgesModel(new BuscarPorIbgeIdSpecification(viewModel.Id));
+            var ibgeModel = await _repository.ObterIbgeModelPorId(viewModel.Id);
             
-            if (ibgesModel.Count() == 0)
+            if (ibgeModel is null)
             {
                 await AdicionarErro("Não existe esse Ibge");
-
                 return CustomResponse;
             }
-
-            var ibgeModel = ibgesModel.Single();
 
             await _repository.RemoverIbgeModel(ibgeModel);
 
@@ -106,23 +103,23 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
         {
             IEnumerable<IbgeModel> result;
 
-            if (!string.IsNullOrEmpty(viewModel.Id) && !string.IsNullOrEmpty(viewModel.State) && !string.IsNullOrEmpty(viewModel.City))
+            if (BuscarPorCityStateIdSpecification.IsValid([viewModel.Id, viewModel.State, viewModel.City]))
                 result = await _repository.ObterIbgesModel(new BuscarPorCityStateIdSpecification(viewModel.City,
                                                                                                   viewModel.State,
                                                                                                   viewModel.Id,
                                                                                                   viewModel.Size,
                                                                                                   viewModel.Skip));
-            else if (!string.IsNullOrEmpty(viewModel.Id) && !string.IsNullOrEmpty(viewModel.State))
+            else if (BuscarPorStateIdSpecification.IsValid([viewModel.Id, viewModel.State]))
                 result = await _repository.ObterIbgesModel(new BuscarPorStateIdSpecification(viewModel.State, viewModel.Id));
-            else if (!string.IsNullOrEmpty(viewModel.State) && !string.IsNullOrEmpty(viewModel.City))
+            else if (BuscarPorStateCitySpecification.IsValid([viewModel.State, viewModel.City]))
                 result = await _repository.ObterIbgesModel(new BuscarPorStateCitySpecification(viewModel.State, viewModel.City));
-            else if (!string.IsNullOrEmpty(viewModel.Id) && !string.IsNullOrEmpty(viewModel.City))
+            else if (BuscarPorCityIdSpecification.IsValid([viewModel.Id, viewModel.City]))
                 result = await _repository.ObterIbgesModel(new BuscarPorCityIdSpecification(viewModel.City, viewModel.Id));
-            else if (!string.IsNullOrEmpty(viewModel.Id))
+            else if (BuscarPorIbgeIdSpecification.IsValid([viewModel.Id]))
                 result = await _repository.ObterIbgesModel(new BuscarPorIbgeIdSpecification(viewModel.Id));
-            else if (!string.IsNullOrEmpty(viewModel.City))
+            else if (BuscarPorCitySpecification.IsValid([viewModel.City]))
                 result = await _repository.ObterIbgesModel(new BuscarPorCitySpecification(viewModel.City));
-            else if (!string.IsNullOrEmpty(viewModel.State))
+            else if (BuscarPorStateSpecification.IsValid([viewModel.State]))
                 result = await _repository.ObterIbgesModel(new BuscarPorStateSpecification(viewModel.State));
             else
                 result = await _repository.ObterIbgesModel();
