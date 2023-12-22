@@ -23,7 +23,13 @@ else
             <TemplateColumn Title="Codigo" InitialSortDirection=SortDirection.Descending IsDefaultSortColumn=true>
                 <ColumnOptions>
                     <div class="search-box">
-                        <FluentSearch type="search" Autofocus=true @bind-Value=idFilter @onchange="async e => await HandleFilter(e, nameof(idFilter))" @bind-Value:after="() => HandleClear(nameof(idFilter))" Placeholder="Codigo" />
+                        <FluentSearch type="search" 
+                            Autofocus=true 
+                            @bind-Value=idFilter 
+                            @onchange="async e => await HandleFilter(e, nameof(idFilter))" 
+                            @oninput="async e => await HandleFilter(e, nameof(idFilter))" 
+                            @bind-Value:after="() => HandleClear(nameof(idFilter))" 
+                            Placeholder="Codigo" />
                     </div>
                 </ColumnOptions>
                 <ChildContent>
@@ -33,7 +39,13 @@ else
             <TemplateColumn Title="Estado" IsDefaultSortColumn=true>
                 <ColumnOptions>
                     <div class="search-box">
-                        <FluentSearch type="search" Autofocus=true @bind-Value=stateFilter @onchange="async e => await HandleFilter(e, nameof(stateFilter))" @bind-Value:after="() => HandleClear(nameof(stateFilter))" Placeholder="Sigla do Estado" />
+                        <FluentSearch type="search" 
+                            Autofocus=true 
+                            @bind-Value=stateFilter 
+                            @onchange="async e => await HandleFilter(e, nameof(stateFilter))" 
+                            @oninput="async e => await HandleFilter(e, nameof(stateFilter))" 
+                            @bind-Value:after="() => HandleClear(nameof(stateFilter))" 
+                            Placeholder="Sigla do Estado" />
                     </div>
                 </ColumnOptions>
                 <ChildContent>
@@ -43,7 +55,13 @@ else
             <TemplateColumn Title="Cidade" IsDefaultSortColumn=true>
                 <ColumnOptions>
                     <div class="search-box">
-                        <FluentSearch type="search" Autofocus=true @bind-Value=cityFilter @onchange="async e => await HandleFilter(e, nameof(cityFilter))" @bind-Value:after="() => HandleClear(nameof(cityFilter))" Placeholder="Cidade" />
+                        <FluentSearch type="search" 
+                            Autofocus=true 
+                            @bind-Value=cityFilter 
+                            @onchange="async e => await HandleFilter(e, nameof(cityFilter))" 
+                            @oninput="async e => await HandleFilter(e, nameof(cityFilter))" 
+                            @bind-Value:after="() => HandleClear(nameof(cityFilter))" 
+                            Placeholder="Cidade" />
                     </div>
                 </ColumnOptions>
                 <ChildContent>
