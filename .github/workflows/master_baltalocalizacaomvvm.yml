@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'BaltaLocalizacaoMVVM'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_66742A7A65CA4DE5A2178C07217C7200 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E0F9847CDC2041D88BD6AA319CDDA057 }}
           package: .
