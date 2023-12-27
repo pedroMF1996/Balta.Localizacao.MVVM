@@ -1,16 +1,4 @@
-﻿using Balta.Localizacao.MVVM.PresentetionLayer.Services;
-using Bogus;
-using Moq.AutoMock;
-using Moq;
-using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.IbgeViewModels;
-using Balta.Localizacao.MVVM.Domain.Interfaces;
-using Balta.Localizacao.MVVM.Domain.Models;
-using Balta.Localizacao.MVVM.Core.Data;
-using Balta.Localizacao.MVVM.Data.IbgeSpecifications;
-using Balta.Localizacao.MVVM.Domain.Specification;
-using Balta.Localizacao.MVVM.Core.Presentaion;
-
-namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
+﻿namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 {
     public class IbgeServiceTeste
     {
@@ -79,8 +67,6 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             // Assert
             Assert.False(await result.IsCompleted());
-
-
         }
 
 
@@ -102,8 +88,6 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             var ibgeModel = new IbgeModel(viewModel.Id,"MA","TESTE");
 
-            
-
             var service = autoMocker.CreateInstance<IbgeService>();
 
             var ibgeRepository = autoMocker.GetMock<IIbgeRepository>();
@@ -114,10 +98,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             ibgeRepository.Setup(s => s.EditarIbgeModel(It.IsAny<IbgeModel>())).Returns(Task.CompletedTask);
 
-            ibgeRepository.Setup(s => s.ObterIbgesModel(It.IsAny<ISpecification<IbgeModel>>())).ReturnsAsync(new List<IbgeModel>()
-            {
-                ibgeModel
-            });
+            ibgeRepository.Setup(s => s.ObterIbgeModelPorId(It.IsAny<string>())).ReturnsAsync(ibgeModel);
 
             ibgeRepository.Setup(s => s.UnitOfWork).Returns(unitWork.Object);
 
@@ -125,9 +106,11 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             var result = await service.AtualizarIbge(viewModel, viewModel.Id);
 
             // Assert
+            var resultViewModel = (IbgeAtualizarViewModel)result.ViewModel;
             Assert.True(await result.IsCompleted());
-
-
+            Assert.Equal(viewModel.Id, resultViewModel.Id);
+            Assert.Equal(viewModel.State, resultViewModel.State);
+            Assert.Equal(viewModel.City, resultViewModel.City);
         }
 
 
@@ -143,12 +126,9 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
                 City = f.Address.City(),
                 State = "MA",
                 Id = "1234567",
-
             }).Generate();
 
-            var ibgeModel = new IbgeModel(viewModel.Id, "MA", "TESTE");
-
-
+            var ibgeModel = new IbgeModel(viewModel.Id, viewModel.State, viewModel.City);
 
             var service = autoMocker.CreateInstance<IbgeService>();
 
@@ -160,10 +140,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             ibgeRepository.Setup(s => s.EditarIbgeModel(It.IsAny<IbgeModel>())).Returns(Task.CompletedTask);
 
-            ibgeRepository.Setup(s => s.ObterIbgesModel(new BuscarPorIbgeIdSpecification(viewModel.Id))).ReturnsAsync(new List<IbgeModel>()
-            {
-                ibgeModel
-            });
+            ibgeRepository.Setup(s => s.ObterIbgeModelPorId(It.IsAny<string>())).ReturnsAsync(ibgeModel);
 
             ibgeRepository.Setup(s => s.UnitOfWork).Returns(unitWork.Object);
 
@@ -172,10 +149,8 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             // Assert
             Assert.False(await result.IsCompleted());
-
-
+            Assert.Contains("Registro IBGE não atualizado.", result.Errors);
         }
-
 
         [Fact(DisplayName = "Deve remove Ibge ")]
         [Trait("Categoria", "IbgeService")]
@@ -192,8 +167,6 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             var ibgeModel = new IbgeModel(viewModel.Id, "MA", "TESTE");
 
-
-
             var service = autoMocker.CreateInstance<IbgeService>();
 
             var ibgeRepository = autoMocker.GetMock<IIbgeRepository>();
@@ -204,10 +177,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             ibgeRepository.Setup(s => s.RemoverIbgeModel(It.IsAny<IbgeModel>())).Returns(Task.CompletedTask);
 
-            ibgeRepository.Setup(s => s.ObterIbgesModel(It.IsAny<ISpecification<IbgeModel>>())).ReturnsAsync(new List<IbgeModel>()
-            {
-                ibgeModel
-            });
+            ibgeRepository.Setup(s => s.ObterIbgeModelPorId(It.IsAny<string>())).ReturnsAsync(ibgeModel);
 
             ibgeRepository.Setup(s => s.UnitOfWork).Returns(unitWork.Object);
 
@@ -216,8 +186,6 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             // Assert
             Assert.True(await result.IsCompleted());
-
-
         }
 
 
@@ -236,8 +204,6 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             var ibgeModel = new IbgeModel(viewModel.Id, "MA", "TESTE");
 
-
-
             var service = autoMocker.CreateInstance<IbgeService>();
 
             var ibgeRepository = autoMocker.GetMock<IIbgeRepository>();
@@ -260,8 +226,6 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             // Assert
             Assert.False(await result.IsCompleted());
-
-
         }
 
 
@@ -302,8 +266,6 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             // Assert
             Assert.True(await result.IsCompleted());
-
-
         }
 
 
@@ -353,10 +315,6 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 
             // Assert
             Assert.Equal(customerResponse.Errors,result.Errors);
-
-
         }
-
-
     }
 }

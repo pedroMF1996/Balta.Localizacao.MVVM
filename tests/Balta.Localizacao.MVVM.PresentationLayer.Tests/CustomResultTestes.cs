@@ -1,12 +1,4 @@
-﻿using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.IbgeViewModels;
-using Balta.Localizacao.MVVM.Core.Presentaion;
-using Xunit;
-using Moq.AutoMock;
-using FluentValidation.Results;
-using Balta.Localizacao.MVVM.Core.Data;
-using Balta.Localizacao.MVVM.Domain.Models;
-
-namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
+﻿namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
 {
     public class CustomResponseTestes
     {
@@ -131,7 +123,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
         {
             // Arrange
             var result = new CustomResponse();
-            var validationResult = new ValidationResult();
+            var validationResult = new FluentValidation.Results.ValidationResult();
             
             // Act
             await result.AtribuirValidationResult(validationResult);
@@ -162,7 +154,7 @@ namespace Balta.Localizacao.MVVM.PresentationLayer.Tests
             // Arrange
             var automocker = new AutoMocker();
             var service = automocker.CreateInstance<ServiceMock>();
-            var validationResult = new ValidationResult();
+            var validationResult = new FluentValidation.Results.ValidationResult();
 
             // Act
             await service.AdicionarErro(validationResult);

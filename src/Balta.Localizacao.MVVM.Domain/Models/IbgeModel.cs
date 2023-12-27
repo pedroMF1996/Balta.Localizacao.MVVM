@@ -18,28 +18,37 @@ namespace Balta.Localizacao.MVVM.Domain.Models
             State = state;
         }
 
-        public async Task SetId(string id)
+        public async Task<bool> SetId(string id)
         {
-            if(id.IsOnlyNumbers())
-                Id = id;
+            if (!id.IsOnlyNumbers() || Id == id)
+                return false;
+
+            Id = id;
+            return true;
         }
-        public async Task SetCity(string city)
+        
+        public async Task<bool> SetCity(string city)
         {
-            if(city.HasMaxLength(80))
-                City = city;
+            if (!city.HasMaxLength(80) || City == city)
+                return false;
+            
+            City = city;
+            return true;
         }
-        public async Task SetState(string state)
+
+        public async Task<bool> SetState(string state)
         {
-            if(state.HasMaxLength(2))
-                State = state;
+            if (!state.HasMaxLength(2) || State == state)
+                return false;
+            
+            State = state;
+            return true;
         }
 
         public override bool IsValid()
         {
             ValidationResult = new IbgeModelValidation().Validate(this);
             return base.IsValid();
-        }
-
-  
+        }  
     }
 }
