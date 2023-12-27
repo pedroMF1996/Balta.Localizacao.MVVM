@@ -1,8 +1,4 @@
-﻿using Balta.Localizacao.MVVM.Domain.Models;
-using Balta.Localizacao.MVVM.Domain.Models.Validations;
-using Bogus.DataSets;
-
-namespace Balta.Localizacao.MVVM.Domain.Tests
+﻿namespace Balta.Localizacao.MVVM.Domain.Tests
 {
     public class IbgeModelTests
     {

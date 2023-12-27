@@ -40,11 +40,15 @@ namespace Balta.Localizacao.MVVM.PresentetionLayer.Services
                 return CustomResponse;
             }
 
-            await ibge.SetState(viewModel.State);
-            await ibge.SetCity(viewModel.City);
-            await ibge.SetId(viewModel.Id);
+            if (!await ibge.SetState(viewModel.State) && !await ibge.SetCity(viewModel.City) && !await ibge.SetId(viewModel.Id))
+            {
+                await AdicionarErro("Registro IBGE não atualizado.");
+                return CustomResponse;
+            }
 
             await _repository.EditarIbgeModel(ibge);
+
+            await AtribuirViewModel(viewModel);
 
             return await PersistirDados(_repository.UnitOfWork);
         }

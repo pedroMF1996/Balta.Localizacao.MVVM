@@ -1,1 +1,13 @@
 global using Xunit;
+global using Balta.Localizacao.MVVM.PresentetionLayer.Services;
+global using Bogus;
+global using Moq.AutoMock;
+global using Moq;
+global using Balta.Localizacao.MVVM.PresentetionLayer.ViewModels.IbgeViewModels;
+global using Balta.Localizacao.MVVM.Domain.Interfaces;
+global using Balta.Localizacao.MVVM.Domain.Models;
+global using Balta.Localizacao.MVVM.Core.Data;
+global using Balta.Localizacao.MVVM.Data.IbgeSpecifications;
+global using Balta.Localizacao.MVVM.Domain.Specification;
+global using Balta.Localizacao.MVVM.Core.Presentaion;
+global using FluentValidation.Results;
