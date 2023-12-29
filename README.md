@@ -41,7 +41,7 @@ Bem-vindo ao Desafio IBGE, um projeto que oferece uma aplicação web avançada 
 Para dúvidas ou mais informações, entre em contato com nossa equipe de desenvolvimento.
 
 
-<details Open> 
+<details Closed> 
   <summary>
    <h1>Artigos & Pesquisas 📑</h1>
   </summary>
